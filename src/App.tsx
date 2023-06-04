@@ -8,6 +8,7 @@ import Login from './pages/Login/Login'
 import Landing from './pages/Landing/Landing'
 import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
+import NewPlayer from './pages/NewPlayer/NewPlayer'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -15,15 +16,17 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 
 // services
 import * as authService from './services/authService'
+import * as playerService from './services/playerService'
 
 // styles
 import './App.css'
 
 // types
-import { User } from './types/models'
+import { User, Player } from './types/models'
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(authService.getUser())
+  const [players, setPlayers] =useState<Player[]>([])
   const navigate = useNavigate()
   
   const handleLogout = (): void => {
@@ -34,6 +37,10 @@ function App(): JSX.Element {
 
   const handleAuthEvt = (): void => {
     setUser(authService.getUser())
+  }
+
+  const handleAddPlayer = (newPlayer: Player) => {
+    setPlayers([...players, newPlayer])
   }
 
   return (
@@ -62,6 +69,14 @@ function App(): JSX.Element {
           element={
             <ProtectedRoute user={user}>
               <ChangePassword handleAuthEvt={handleAuthEvt} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/new"
+          element={
+            <ProtectedRoute user={user}>
+            <NewPlayer onAddPlayer={handleAddPlayer} />
             </ProtectedRoute>
           }
         />
