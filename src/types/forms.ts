@@ -1,5 +1,12 @@
 /* ---------==== custom forms ====--------- */
-
+export interface PlayerFormData {
+  name: string;
+  age: number;
+  position: string;
+  team: string;
+  transferFee: number;
+  photo: string;
+}
 
 
 /* ---------===== auth forms =====--------- */

@@ -1,5 +1,15 @@
 /* ---------===== custom props ====--------- */
-
+export interface Player {
+  name: string;
+  age: number;
+  position: string;
+  team: string;
+  transferFee: number;
+  photo: string;
+  upvotes: number;
+  downvotes: number;
+  profileId: number;
+}
 
 
 /* ---------===== auth models =====--------- */
