@@ -29,6 +29,7 @@ const AllPlayers = (props: PlayerProps): JSX.Element => {
       <h1>Transfer Hub</h1>
       {players.map((player: Player) => (
         <PlayerCard
+        key={player.name}
         player={player}
         profileName= {profileName}
         />

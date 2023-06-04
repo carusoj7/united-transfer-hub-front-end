@@ -9,6 +9,7 @@ import Landing from './pages/Landing/Landing'
 import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import NewPlayer from './pages/NewPlayer/NewPlayer'
+import AllPlayers from './pages/TransferHub/TransferHub'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -17,18 +18,18 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 // services
 import * as authService from './services/authService'
 import * as playerService from './services/playerService'
+import * as profileService from './services/profileService'
 
 // styles
 import './App.css'
 
 // types
 import { User, Player, Profile } from './types/models'
-import AllPlayers from './pages/TransferHub/TransferHub'
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(authService.getUser())
   const [players, setPlayers] =useState<Player[]>([])
-  const [profile, setProfile] =useState<Profile>
+  const [profile, setProfile] =useState<Profile | null>(null)
   const navigate = useNavigate()
   
   const handleLogout = (): void => {
@@ -60,8 +61,23 @@ function App(): JSX.Element {
         console.log(error)
       }
     }
+    const fetchProfile = async(): Promise<void> => {
+      try {
+        const profileData: Profile = await profileService.getProfile()
+        setProfile(profileData)
+      } catch (error){
+        console.log(error)
+      }
+    }
     user ? fetchPlayers() : setPlayers([])
-  }, [user]);
+    if (user) {
+      fetchProfile()
+    } else {
+      setProfile(null)
+    }
+  }, [user, setProfile])
+
+
 
   return (
     <>
