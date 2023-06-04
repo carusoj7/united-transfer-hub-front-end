@@ -22,12 +22,13 @@ import * as playerService from './services/playerService'
 import './App.css'
 
 // types
-import { User, Player } from './types/models'
+import { User, Player, Profile } from './types/models'
 import AllPlayers from './pages/TransferHub/TransferHub'
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(authService.getUser())
   const [players, setPlayers] =useState<Player[]>([])
+  const [profile, setProfile] =useState<Profile>
   const navigate = useNavigate()
   
   const handleLogout = (): void => {
@@ -103,7 +104,9 @@ function App(): JSX.Element {
           path="/transferhub"
           element={
             <ProtectedRoute user={user}>
-              <AllPlayers players={players} />
+              <AllPlayers 
+              players={players}
+              profileName={profile?.name} />
             </ProtectedRoute>
           }
         />
