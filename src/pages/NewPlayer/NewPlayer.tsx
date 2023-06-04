@@ -1,11 +1,12 @@
 import { ChangeEvent, FormEvent } from "react";
 
 // npm modules 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //types
 import { Player } from "../../types/models";
 import { PlayerFormData } from "../../types/forms";
+import { getUserFromToken } from "../../services/tokenService";
 
 // css
 import styles from './NewPlayer.module.css'
@@ -21,8 +22,24 @@ const NewPlayer = (props: NewPlayerProps) => {
     position: '',
     team: '',
     transferFee: 0,
-    photo: ''
+    photo: '',
+    upvotes: 0,
+    downvotes: 0,
+    profileId: 0
+
   })
+
+  //const navigate = useNavigate()
+
+  useEffect(() => {
+    const user = getUserFromToken()
+    if (user) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        profileId: user.profile.id
+      }))
+    }
+  }, []);
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target
@@ -34,17 +51,21 @@ const NewPlayer = (props: NewPlayerProps) => {
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
-    console.log(formData, "form data !!!!!!!!!")
-
-    
-  }
+    const user = getUserFromToken()
+    if (user) {
+      const newPlayer: Player = {
+        ...formData,
+        profileId: user.profile.id, 
+      }
+      props.onAddPlayer(newPlayer)
+    }
+  };
   
-
   return (
     
   <section className={styles.newPlayerContainer}>
     <h1> Create Transfer Target </h1>
-    <form>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="name">Name</label>
       <input
         type="text"
@@ -91,6 +112,7 @@ const NewPlayer = (props: NewPlayerProps) => {
         id="photo"
         name="photo"
       />
+      <button type="submit">Create Transfer Target</button>
     </form>
     </section>
   )

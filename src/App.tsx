@@ -39,9 +39,15 @@ function App(): JSX.Element {
     setUser(authService.getUser())
   }
 
-  const handleAddPlayer = (newPlayer: Player) => {
-    setPlayers([...players, newPlayer])
-  }
+  const handleAddPlayer = async (newPlayer: Player) => {
+    try {
+    const createdPlayer = await playerService.createPlayer(newPlayer)
+    setPlayers([...players, createdPlayer])
+    console.log(createdPlayer, "new player data");
+    } catch (error){
+    console.log(error)
+    }
+  } 
 
   return (
     <>
