@@ -1,5 +1,5 @@
 // npm modules 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 
 // pages
@@ -23,6 +23,7 @@ import './App.css'
 
 // types
 import { User, Player } from './types/models'
+import AllPlayers from './pages/TransferHub/TransferHub'
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(authService.getUser())
@@ -48,6 +49,18 @@ function App(): JSX.Element {
     console.log(error)
     }
   } 
+
+  useEffect((): void => {
+    const fetchPlayers = async(): Promise<void> => {
+      try {
+        const playerData: Player[] = await playerService.getAllPlayers()
+        setPlayers(playerData)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    user ? fetchPlayers() : setPlayers([])
+  }, [user]);
 
   return (
     <>
@@ -83,6 +96,14 @@ function App(): JSX.Element {
           element={
             <ProtectedRoute user={user}>
             <NewPlayer onAddPlayer={handleAddPlayer} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transferhub"
+          element={
+            <ProtectedRoute user={user}>
+              <AllPlayers players={players} />
             </ProtectedRoute>
           }
         />

@@ -19,6 +19,14 @@ async function createPlayer(playerFormData: PlayerFormData): Promise<Player> {
   return await res.json() as Player
 }
 
+async function getAllPlayers(): Promise<Player[]> {
+    const res = await fetch(BASE_URL, {
+      headers: { 'Authorization': `Bearer ${tokenService.getToken()}` }
+    })
+    return await res.json() as Player[]
+}
+
 export {
-  createPlayer
+  createPlayer,
+  getAllPlayers
 } 
