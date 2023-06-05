@@ -15,7 +15,8 @@ import { PlayerFormData } from "../../types/forms";
 
 
 interface UpdatePlayerProps {
-  handleUpdatePlayer: (editPlayer:PlayerFormData) => void
+  player: Player | null
+  handleUpdatePlayer: (editPlayer:PlayerFormData) => Promise<void>
 }
 
 const EditPlayer = (props: UpdatePlayerProps) => {
@@ -43,13 +44,16 @@ const handleSubmit = async (evt: FormEvent) => {
   evt.preventDefault()
   const user = getUserFromToken()
   if (user && formData) {
-    const editPlayer: Player = {
+    const editedPlayer: Player = {
       ...formData,
       profileId: user.profile.id, 
     }
-    props.handleUpdatePlayer(editPlayer)
+    await props.handleUpdatePlayer(editedPlayer)
+    setFormData(editedPlayer)
+    navigate(`/${editedPlayer.id}`)
   }
 }
+
   return (
     <section className={styles.newPlayerContainer}>
     <h1> Edit Transfer Target </h1>
@@ -100,7 +104,7 @@ const handleSubmit = async (evt: FormEvent) => {
         id="photo"
         name="photo"
       />
-      <button type="submit">Create Transfer Target</button>
+      <button type="submit">Save</button>
     </form>
     </section>
   )

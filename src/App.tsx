@@ -33,6 +33,7 @@ function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(authService.getUser())
   const [players, setPlayers] =useState<Player[]>([])
   const [profile, setProfile] =useState<Profile | null>(null)
+  const [player, setPlayer] = useState<Player | null>(null)
   const navigate = useNavigate()
   
   const handleLogout = (): void => {
@@ -152,7 +153,7 @@ function App(): JSX.Element {
           path="/:playerId/edit"
           element={
             <ProtectedRoute user={user}>
-              <EditPlayer handleUpdatePlayer={handleUpdatePlayer} />
+              <EditPlayer player={player} handleUpdatePlayer={handleUpdatePlayer} />
             </ProtectedRoute>
           }
         />

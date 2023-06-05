@@ -34,7 +34,7 @@ async function show(playerId: number): Promise<Player> {
 }
 
 async function update(playerFormData: PlayerFormData): Promise<Player> {
-  const res = await fetch(`BASE_URL/${playerFormData.id}`, {
+  const res = await fetch(`${BASE_URL}/${playerFormData.id}`, {
     method: 'PUT',
     headers: {
       'Authorization': `Bearer ${tokenService.getToken()}`,
