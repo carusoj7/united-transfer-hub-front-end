@@ -122,7 +122,7 @@ function App(): JSX.Element {
             <ProtectedRoute user={user}>
               <AllPlayers 
               players={players}
-              profileName={profile?.name} />
+              profileName={profile?.name || ''} />
             </ProtectedRoute>
           }
         />

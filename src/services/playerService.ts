@@ -26,7 +26,21 @@ async function getAllPlayers(): Promise<Player[]> {
     return await res.json() as Player[]
 }
 
+async function update(playerFormData: PlayerFormData): Promise<Player> {
+  const res = await fetch(`BASE_URL/${playerFormData.id}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${tokenService.getToken()}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(playerFormData)
+  })
+  return await res.json() as Player
+}
+
+
 export {
   createPlayer,
-  getAllPlayers
+  getAllPlayers,
+  update
 } 
