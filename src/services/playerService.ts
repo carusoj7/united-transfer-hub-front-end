@@ -45,10 +45,17 @@ async function update(playerFormData: PlayerFormData): Promise<Player> {
   return await res.json() as Player
 }
 
+async function deletePlayer(playerId: number): Promise<void> {
+  await fetch(`${BASE_URL}/${playerId}`), {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${tokenService.getToken()}` }
+  }
+}
 
 export {
   createPlayer,
   getAllPlayers,
   show,
-  update
+  update,
+  deletePlayer
 } 

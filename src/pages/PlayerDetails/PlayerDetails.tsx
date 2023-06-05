@@ -13,7 +13,11 @@ import styles from './PlayerDetails.module.css'
 //types
 import { Player } from "../../types/models";
 
-const PlayerDetails = () => {
+interface PlayerDetailProps {
+  handleDeletePlayer: (playerId: number) => Promise<void>
+}
+
+const PlayerDetails = ({ handleDeletePlayer}: PlayerDetailProps) => {
   const { playerId } = useParams<{ playerId: string }>()
   const [player, setPlayer] = useState<Player | null>(null);
 
@@ -40,10 +44,11 @@ return (
             Edit
           </Link>
         </button>
+        <button onClick={() => handleDeletePlayer(player.id)}>Delete</button>
         </>
       )}
+        </div>
     </div>
-  </div>
 )
 }
 export default PlayerDetails

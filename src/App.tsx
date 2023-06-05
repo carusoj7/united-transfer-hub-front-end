@@ -46,6 +46,32 @@ function App(): JSX.Element {
     setUser(authService.getUser())
   }
 
+  
+  useEffect((): void => {
+    const fetchPlayers = async(): Promise<void> => {
+      try {
+        const playerData: Player[] = await playerService.getAllPlayers()
+        setPlayers(playerData)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    const fetchProfile = async(): Promise<void> => {
+      try {
+        const profileData: Profile = await profileService.getProfile()
+        setProfile(profileData)
+      } catch (error){
+        console.log(error)
+      }
+    }
+    user ? fetchPlayers() : setPlayers([])
+    if (user) {
+      fetchProfile()
+    } else {
+      setProfile(null)
+    }
+  }, [user, setProfile])
+  
   const handleAddPlayer = async (newPlayer: Player) => {
     try {
     const createdPlayer = await playerService.createPlayer(newPlayer)
@@ -76,34 +102,16 @@ function App(): JSX.Element {
       console.log(error)
     }
   }
-
-  useEffect((): void => {
-    const fetchPlayers = async(): Promise<void> => {
-      try {
-        const playerData: Player[] = await playerService.getAllPlayers()
-        setPlayers(playerData)
-      } catch (error) {
-        console.log(error)
-      }
+  const handleDeletePlayer = async (playerId: number): Promise<void> => {
+    try {
+      await playerService.deletePlayer(playerId)
+      setPlayers(players.filter(p => p.id !== playerId))
+      navigate('/')
+    } catch (error) {
+      console.log(error)
     }
-    const fetchProfile = async(): Promise<void> => {
-      try {
-        const profileData: Profile = await profileService.getProfile()
-        setProfile(profileData)
-      } catch (error){
-        console.log(error)
-      }
-    }
-    user ? fetchPlayers() : setPlayers([])
-    if (user) {
-      fetchProfile()
-    } else {
-      setProfile(null)
-    }
-  }, [user, setProfile])
-
-
-
+  }
+  
   return (
     <>
       <NavBar user={user} handleLogout={handleLogout} />
@@ -145,7 +153,7 @@ function App(): JSX.Element {
         path="/:playerId"
         element={
           <ProtectedRoute user={user}>
-            <PlayerDetails />
+            <PlayerDetails handleDeletePlayer={handleDeletePlayer} />
           </ProtectedRoute>
         }
         />
