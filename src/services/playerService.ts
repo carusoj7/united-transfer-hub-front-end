@@ -26,6 +26,13 @@ async function getAllPlayers(): Promise<Player[]> {
     return await res.json() as Player[]
 }
 
+async function show(playerId: number): Promise<Player> {
+    const res = await fetch(`${BASE_URL}/${playerId}`, {
+      headers: { 'Authorization': `Bearer ${tokenService.getToken()}` }
+    })
+    return await res.json() as Player
+}
+
 async function update(playerFormData: PlayerFormData): Promise<Player> {
   const res = await fetch(`BASE_URL/${playerFormData.id}`, {
     method: 'PUT',
@@ -42,5 +49,6 @@ async function update(playerFormData: PlayerFormData): Promise<Player> {
 export {
   createPlayer,
   getAllPlayers,
+  show,
   update
 } 

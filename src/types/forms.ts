@@ -1,6 +1,6 @@
 /* ---------==== custom forms ====--------- */
 export interface PlayerFormData {
-  id?: number;
+  id: number;
   name: string;
   age: number;
   position: string;

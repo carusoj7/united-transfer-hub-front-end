@@ -1,73 +1,58 @@
-import { ChangeEvent, FormEvent } from "react";
+//npm modules
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-// npm modules 
-import { useState, useEffect } from "react";
+//css
+import styles from './EditPlayer.module.css'
 
-//types
-import { Player } from "../../types/models";
-import { PlayerFormData } from "../../types/forms";
-
+//services
 //services
 import { getUserFromToken } from "../../services/tokenService";
 
-// css
-import styles from './NewPlayer.module.css'
+//types
+import { Player, Profile } from "../../types/models";
+import { PlayerFormData } from "../../types/forms";
 
-interface NewPlayerProps {
-  handleAddPlayer: (newPlayer: Player) => void
+
+interface UpdatePlayerProps {
+  handleUpdatePlayer: (editPlayer:PlayerFormData) => void
 }
 
-const NewPlayer = (props: NewPlayerProps) => {
-  const [formData, setFormData] = useState<PlayerFormData>({
-    id: 0,
-    name: '',
-    age: 0,
-    position: '',
-    team: '',
-    transferFee: 0,
-    photo: '',
-    upvotes: 0,
-    downvotes: 0,
-    profileId: 0
-
-  })
-
-  //const navigate = useNavigate()
-
+const EditPlayer = (props: UpdatePlayerProps) => {
+  const { state } = useLocation()
+  const [formData, setFormData] = useState<PlayerFormData>(state as PlayerFormData)
+  const navigate = useNavigate()
+  
   useEffect(() => {
     const user = getUserFromToken()
-    if (user) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        profileId: user.profile.id
-      }))
+    if (!user || (formData && user.profile.id !== formData.profileId)) {
+      navigate('/transferhub');
+    } else {
+      setFormData(formData);
     }
-  }, []);
+  }, [formData, navigate]);
+
+
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = evt.target
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }))
-  }
-
-  const handleSubmit = async (evt: FormEvent) => {
-    evt.preventDefault()
-    const user = getUserFromToken()
-    if (user) {
-      const newPlayer: Player = {
-        ...formData,
-        profileId: user.profile.id, 
-      }
-      props.handleAddPlayer(newPlayer)
-    }
+    setFormData({ ...formData, [evt.target.name]: evt.target.value });
   };
-  
+
+
+const handleSubmit = async (evt: FormEvent) => {
+  evt.preventDefault()
+  const user = getUserFromToken()
+  if (user && formData) {
+    const editPlayer: Player = {
+      ...formData,
+      profileId: user.profile.id, 
+    }
+    props.handleUpdatePlayer(editPlayer)
+  }
+}
   return (
-    
-  <section className={styles.newPlayerContainer}>
-    <h1> Create Transfer Target </h1>
+    <section className={styles.newPlayerContainer}>
+    <h1> Edit Transfer Target </h1>
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">Name</label>
       <input
@@ -121,5 +106,4 @@ const NewPlayer = (props: NewPlayerProps) => {
   )
 }
 
-export default NewPlayer
-
+export default EditPlayer

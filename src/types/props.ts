@@ -1,6 +1,8 @@
 /* ---------======= custom props ======--------- */
 
-
+export interface UpdatePlayerProps {
+  handleUpdatePlayer: () => void
+}
 
 /* ---------===== auth form props =====--------- */
 

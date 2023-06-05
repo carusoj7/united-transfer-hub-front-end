@@ -1,0 +1,20 @@
+.newPlayerContainer {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.newPlayerContainer h1 {
+  margin-bottom: 20px;
+}
+
+.newPlayerContainer form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.newPlayerContainer form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}

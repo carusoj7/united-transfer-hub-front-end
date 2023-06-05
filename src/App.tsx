@@ -10,6 +10,7 @@ import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import NewPlayer from './pages/NewPlayer/NewPlayer'
 import AllPlayers from './pages/TransferHub/TransferHub'
+import EditPlayer from './pages/EditPlayer/EditPlayer'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -25,6 +26,8 @@ import './App.css'
 
 // types
 import { User, Player, Profile } from './types/models'
+import { PlayerFormData } from './types/forms'
+import PlayerDetails from './pages/PlayerDetails/PlayerDetails'
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(authService.getUser())
@@ -51,6 +54,27 @@ function App(): JSX.Element {
     console.log(error)
     }
   } 
+
+  const handleUpdatePlayer = async (playerFormData: PlayerFormData) => {
+    try {
+      const existingPlayer = await playerService.show(playerFormData.id)
+      const updatedPlayer: Player ={
+        ...existingPlayer, ...playerFormData
+      }
+      const updatedPlayerData = await playerService.update(updatedPlayer)
+      setPlayers((players) => {
+        return players.map((player) => {
+          if (player.id === updatedPlayerData.id) {
+            return updatedPlayerData
+          } else {
+            return player
+          }
+        })
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect((): void => {
     const fetchPlayers = async(): Promise<void> => {
@@ -112,7 +136,23 @@ function App(): JSX.Element {
           path="/new"
           element={
             <ProtectedRoute user={user}>
-            <NewPlayer onAddPlayer={handleAddPlayer} />
+            <NewPlayer handleAddPlayer={handleAddPlayer} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+        path="/:playerId"
+        element={
+          <ProtectedRoute user={user}>
+            <PlayerDetails />
+          </ProtectedRoute>
+        }
+        />
+        <Route
+          path="/:playerId/edit"
+          element={
+            <ProtectedRoute user={user}>
+              <EditPlayer handleUpdatePlayer={handleUpdatePlayer} />
             </ProtectedRoute>
           }
         />
