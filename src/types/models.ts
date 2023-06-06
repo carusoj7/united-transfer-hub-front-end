@@ -12,6 +12,16 @@ export interface Player {
   profileId: number;
 }
 
+export interface Vote {
+  id: number;
+  playerId: number;
+  profileId: number;
+  upvotes: number;
+  downvotes: number;
+}
+
+
+
 
 /* ---------===== auth models =====--------- */
 

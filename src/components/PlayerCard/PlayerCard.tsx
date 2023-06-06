@@ -1,10 +1,13 @@
 import Box from '@mui/material/Box'
 
 //types
+import { Vote } from '../../types/models'
+import { Profile, Player } from '../../types/models'
 
+//componenets
+import VoteManager from '../VoteManager/VoteManager'
 //css
 import styles from './PlayerCard.module.css'
-import { Profile, Player } from '../../types/models'
 
 interface PlayerCardProps {
   player: Player
@@ -13,6 +16,14 @@ interface PlayerCardProps {
 
 const PlayerCard = (props: PlayerCardProps): JSX.Element => {
   const { player, profileName } = props
+
+  const handleUpVote = (vote: Vote): void => {
+
+  }
+
+  const handleDownVote = (vote: Vote): void =. {
+
+  }
 
   return (
     <Box 
@@ -37,6 +48,17 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       <p>Position: {player.position}</p>
       <p>Current Team: {player.team}</p>
       <p>Estimated Transfer Fee: {player.transferFee}</p>
+      <VoteManager
+      vote={{
+        id: player.id,
+        playerId: player.id,
+        profileId: player.profileId,
+        upvotes: player.upvotes,
+        downvotes: player.downvotes
+      }}
+      handleUpvote={handleUpVote}
+      handleDownvote={handleDownVote}
+    />
       <div>{player.upvotes}</div>
       <div>{player.upvotes}</div>
     </article>
