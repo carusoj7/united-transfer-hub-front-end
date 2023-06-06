@@ -60,7 +60,7 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       padding="6px"
       marginTop="6px"
       >
-    <Box ><img src={player.photo? player.photo:'/BWdog_icon.png'} alt="" className={styles.playercardImg} /></Box>
+    <Box ><img src={player.photo? player.photo:'/default-player-jpeg'} alt="" className={styles.playercardImg} /></Box>
     <Box className={styles.playerCardContent}>
       <h1>{player.name}
         {profileName}
