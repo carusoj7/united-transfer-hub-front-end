@@ -13,6 +13,28 @@ async function getVotesForPlayer(playerId: number): Promise<Vote> {
   return await res.json() as Vote
 }
 
+async function upvotePlayer(playerId: number) {
+  const res = await fetch(`${BASE_URL}/${playerId}/upvote`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${tokenService.getToken()}`,
+    },
+  })
+  return await res.json()
+}
+
+async function downvotePlayer(playerId: number) {
+  const res = await fetch(`${BASE_URL}/${playerId}/downvote`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${tokenService.getToken()}`,
+    },
+  })
+  return await res.json()
+}
+
 export {
-  getVotesForPlayer
+  getVotesForPlayer,
+  upvotePlayer,
+  downvotePlayer
 }
