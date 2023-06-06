@@ -26,8 +26,6 @@ const NewPlayer = (props: NewPlayerProps) => {
     team: '',
     transferFee: 0,
     photo: '',
-    upvotes: 0,
-    downvotes: 0,
     profileId: 0
 
   })

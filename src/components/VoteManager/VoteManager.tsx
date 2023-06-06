@@ -4,9 +4,9 @@
 import { Vote } from "../../types/models";
 
 interface VoteProps {
-  vote: Vote
-  handleUpvote: (vote: Vote) => void
-  handleDownvote: (vote: Vote) => void
+  vote?: Vote
+  handleUpvote: (vote?: Vote) => void
+  handleDownvote: (vote?: Vote) => void
 }
 
 const VoteManager = (props: VoteProps): JSX.Element => {
@@ -15,8 +15,8 @@ const VoteManager = (props: VoteProps): JSX.Element => {
     <div>
       <button onClick={() => handleUpvote(vote)}>Upvote</button>
       <button onClick={() => handleDownvote(vote)}>Downvote</button>
-      <span>Upvotes: {vote.upvotes}</span>
-      <span>Downvotes: {vote.downvotes}</span>
+      <span>Upvotes: {vote?.upvotes}</span>
+      <span>Downvotes: {vote?.downvotes}</span>
     </div>
   )
 }

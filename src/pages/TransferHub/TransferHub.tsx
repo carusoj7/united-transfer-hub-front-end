@@ -32,6 +32,7 @@ const AllPlayers = (props: PlayerProps): JSX.Element => {
         key={player.name}
         player={player}
         profileName= {profileName}
+        vote={player.vote}
         />
       ))}
     </main>

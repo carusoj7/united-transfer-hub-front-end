@@ -29,6 +29,7 @@ import { User, Player, Profile } from './types/models'
 import { PlayerFormData } from './types/forms'
 import PlayerDetails from './pages/PlayerDetails/PlayerDetails'
 
+
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(authService.getUser())
   const [players, setPlayers] =useState<Player[]>([])
