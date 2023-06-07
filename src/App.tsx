@@ -154,7 +154,7 @@ function App(): JSX.Element {
         path="/:playerId"
         element={
           <ProtectedRoute user={user}>
-            <PlayerDetails handleDeletePlayer={handleDeletePlayer} />
+            <PlayerDetails player={player} handleDeletePlayer={handleDeletePlayer} />
           </ProtectedRoute>
         }
         />
@@ -173,7 +173,7 @@ function App(): JSX.Element {
               <AllPlayers 
               players={players}
               profileName={profile?.name || ''} 
-              profileId={profile?.id || 0}/>
+              user={user}/>
             </ProtectedRoute>
           }
         />

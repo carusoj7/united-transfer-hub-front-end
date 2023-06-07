@@ -7,45 +7,45 @@ import styles from './PlayerCard.module.css';
 import VoteManager from '../VoteManager/VoteManager';
 
 interface PlayerCardProps {
-  player: Player;
-  profileName: string;
-  profileId: number;
+  player: Player
+  profileName: string
+  profileId: number
 }
 
 const PlayerCard = (props: PlayerCardProps): JSX.Element => {
-  const { player, profileName } = props;
+  const { player, profileName, profileId } = props
   const [votes, setVotes] = useState<{ upvotes?: number; downvotes?: number } | null>(null)
 
   useEffect(() => {
     async function fetchVotes() {
-      const playerVotes = await playerService.fetchVotes(player.id);
-      setVotes(playerVotes);
+      const playerVotes = await playerService.fetchVotes(player.id)
+      setVotes(playerVotes)
     }
 
-    fetchVotes();
-  }, [player.id]);
+    fetchVotes()
+  }, [player.id])
 
   const handleUpvote = async () => {
     try {
-      await playerService.upvotePlayer(player.id);
+      await playerService.upvotePlayer(player.id)
       setVotes((prevVotes) => ({
         ...prevVotes,
         upvotes: (prevVotes?.upvotes || 0) + 1
-      }));
+      }))
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   };
 
   const handleDownvote = async () => {
     try {
-      await playerService.downvotePlayer(player.id);
+      await playerService.downvotePlayer(player.id)
       setVotes((prevVotes) => ({
         ...prevVotes,
         downvotes: (prevVotes?.downvotes || 0) + 1
-      }));
+      }))
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   };
 
@@ -75,6 +75,7 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
           handleUpvote={handleUpvote}
           handleDownvote={handleDownvote}
           player={player}
+          profileId={profileId}
         />
       </div>
     </Box>

@@ -28,17 +28,17 @@ const EditPlayer = (props: UpdatePlayerProps) => {
   useEffect(() => {
     const user = getUserFromToken()
     if (!user || (formData && user.profile.id !== formData.profileId)) {
-      navigate('/transferhub');
+      navigate('/transferhub')
     } else {
-      setFormData(formData);
+      setFormData(formData)
     }
-  }, [formData, navigate]);
+  }, [formData, navigate])
 
 
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
-  };
+    setFormData({ ...formData, [evt.target.name]: evt.target.value })
+  }
 
 
 const handleSubmit = async (evt: FormEvent) => {

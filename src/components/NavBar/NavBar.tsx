@@ -9,7 +9,7 @@ import styles from './NavBar.module.css'
 
 interface NavBarProps {
   user: User | null;
-  handleLogout: () => void;
+  handleLogout: () => void
 }
 
 const NavBar = (props: NavBarProps): JSX.Element => {

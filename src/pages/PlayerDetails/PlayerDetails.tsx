@@ -15,11 +15,12 @@ import { Player } from "../../types/models";
 
 interface PlayerDetailProps {
   handleDeletePlayer: (playerId: number) => Promise<void>
+  player: Player | null
 }
 
 const PlayerDetails = ({ handleDeletePlayer}: PlayerDetailProps) => {
   const { playerId } = useParams<{ playerId: string }>()
-  const [player, setPlayer] = useState<Player | null>(null);
+  const [player, setPlayer] = useState<Player | null>(null)
 
 
 
@@ -30,7 +31,7 @@ useEffect(() => {
     setPlayer(playerData)
   }
   fetchPlayer()
-}, [playerId]);
+}, [playerId])
 
 return (
   <div>

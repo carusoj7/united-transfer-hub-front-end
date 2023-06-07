@@ -8,19 +8,9 @@ export interface Player {
   transferFee: number;
   photo: string;
   upvotes: number,
-  downvotes: number,
-  profileId: number;
-}
-
-export interface Vote {
-  playerId: number;
-  profileId: number;
-  upvotes: number;
   downvotes: number;
+  profileId: number;
 }
-
-
-
 
 /* ---------===== auth models =====--------- */
 

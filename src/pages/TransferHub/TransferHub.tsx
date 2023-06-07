@@ -9,22 +9,25 @@ import * as playerService from '../../services/playerService'
 import PlayerCard from "../../components/PlayerCard/PlayerCard";
 
 // types
-import { Profile, Player } from '../../types/models'
+import { Profile, Player, User } from '../../types/models'
 
 //css
 import styles from './TransferHub.module.css'
 
 interface PlayerProps {
-  players: Player[];
+  players: Player[]
   profileName: string
-  profileId: number
+  user: User | null
 }
 
 const AllPlayers = (props: PlayerProps): JSX.Element => {
-  const { players, profileName, profileId } = props
-
+  const { players, profileName, user } = props
+  const profileId =  user?.profile.id ? user.profile.id : 0
+  console.log(profileId, "profile id");
+  
   if (!players.length) {
     return <main className={styles.container}><h1>Loading...</h1></main>
+    
   }
   return (
     <main className={styles.container}>
@@ -34,7 +37,7 @@ const AllPlayers = (props: PlayerProps): JSX.Element => {
         key={player.id}
         player={player}
         profileName= {profileName}
-        profileId={profileId}
+        profileId= {profileId}
         />
       ))}
     </main>

@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent } from "react";
 
 // npm modules 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //types
 import { Player } from "../../types/models";
@@ -32,7 +33,7 @@ const NewPlayer = (props: NewPlayerProps) => {
 
   })
 
-  //const navigate = useNavigate()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const user = getUserFromToken()
@@ -42,7 +43,7 @@ const NewPlayer = (props: NewPlayerProps) => {
         profileId: user.profile.id
       }))
     }
-  }, []);
+  }, [])
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target
@@ -61,6 +62,7 @@ const NewPlayer = (props: NewPlayerProps) => {
         profileId: user.profile.id, 
       }
       props.handleAddPlayer(newPlayer)
+      navigate('/transferhub')
     }
   };
   
