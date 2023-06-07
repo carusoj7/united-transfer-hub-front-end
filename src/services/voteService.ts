@@ -4,35 +4,13 @@ import { Vote } from '../types/models'
 
 const BASE_URL =  `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/votes`
 
-async function getVotesForPlayer(playerId: number): Promise<Vote> {
+async function fetchVotes(playerId: number): Promise<Vote> {
   const res = await fetch(`${BASE_URL}/${playerId}`, {
     headers: {
       'Authorization': `Bearer ${tokenService.getToken()}`,
     },
   })
   return await res.json() as Vote
-}
-
-async function updateVotesForPlayer(playerId: number, updatedVotes: Vote, updateVotesCallback: (votes: Vote)=> void): Promise<void> {
-  try {
-    const res = await fetch(`${BASE_URL}/${playerId}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${tokenService.getToken()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedVotes),
-    });
-
-    if (res.ok) {
-      const updatedVotes = await res.json();
-      updateVotesCallback(updatedVotes)
-    } else {
-      throw new Error('Failed to update votes');
-    }
-  } catch (error) {
-    throw new Error('Failed to update votes');
-  }
 }
 
 async function upvotePlayer(playerId: number, profileId: number): Promise<void> {
@@ -72,8 +50,8 @@ async function downvotePlayer(playerId: number, profileId: number): Promise<void
 }
 
 export {
-  getVotesForPlayer,
+  fetchVotes,
   upvotePlayer,
   downvotePlayer,
-  updateVotesForPlayer
+  
 }
