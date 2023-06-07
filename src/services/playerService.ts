@@ -52,10 +52,40 @@ async function deletePlayer(playerId: number): Promise<void> {
   });
 }
 
+async function fetchVotes(playerId: number): Promise<{ upvotes: number, downvotes: number }> {
+  const res = await fetch(`${BASE_URL}/${playerId}/votes`, {
+    headers: {
+      'Authorization': `Bearer ${tokenService.getToken()}`,
+    },
+  });
+
+  const data = await res.json();
+  console.log('Votes response:', data);
+
+  return data as { upvotes: number, downvotes: number };
+}
+
+async function upvotePlayer(playerId: number): Promise<void> {
+  await fetch(`${BASE_URL}/${playerId}/upvote`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${tokenService.getToken()}` },
+  });
+}
+
+async function downvotePlayer(playerId: number): Promise<void> {
+  await fetch(`${BASE_URL}/${playerId}/downvote`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${tokenService.getToken()}` },
+  });
+}
+
 export {
   createPlayer,
   getAllPlayers,
   show,
   update,
-  deletePlayer
-}
+  deletePlayer,
+  fetchVotes,
+  upvotePlayer,
+  downvotePlayer,
+};

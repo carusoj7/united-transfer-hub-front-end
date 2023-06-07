@@ -7,7 +7,9 @@ export interface PlayerFormData {
   team: string;
   transferFee: number;
   photo: string;
-  profileId: number
+  profileId: number;
+  upvotes: number;
+  downvotes: number;
 }
 
 

@@ -1,57 +1,84 @@
-import * as tokenService from '../../services/tokenService'
+import Box from '@mui/material/Box';
+import { useState, useEffect } from 'react';
+import { Player } from '../../types/models';
+import * as playerService from '../../services/playerService';
+import styles from './PlayerCard.module.css';
 
-import { Vote } from '../../types/models'
+import VoteManager from '../VoteManager/VoteManager';
 
-const BASE_URL =  `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/votes`
-
-async function fetchVotes(playerId: number): Promise<Vote> {
-  const res = await fetch(`${BASE_URL}/${playerId}`, {
-    headers: {
-      'Authorization': `Bearer ${tokenService.getToken()}`,
-    },
-  })
-  return await res.json() as Vote
+interface PlayerCardProps {
+  player: Player;
+  profileName: string;
+  profileId: number;
 }
 
-async function upvotePlayer(playerId: number, profileId: number): Promise<void> {
-  const vote: Vote = {
-    playerId,
-    profileId,
-    upvotes: 1, 
-    downvotes: 0
-  }
-  const res = await fetch(`${BASE_URL}/${playerId}/upvote`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${tokenService.getToken()}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(vote),
-  })
-  return await res.json()
-}
+const PlayerCard = (props: PlayerCardProps): JSX.Element => {
+  const { player, profileName } = props;
+  const [votes, setVotes] = useState<{ upvotes?: number; downvotes?: number } | null>(null)
 
-async function downvotePlayer(playerId: number, profileId: number): Promise<void> {
-  const vote: Vote = {
-    playerId,
-    profileId,
-    upvotes: 0,
-    downvotes: 1,
-  }
-  const res = await fetch(`${BASE_URL}/${playerId}/downvote`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${tokenService.getToken()}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(vote),
-  })
-  return await res.json()
-}
+  useEffect(() => {
+    async function fetchVotes() {
+      const playerVotes = await playerService.fetchVotes(player.id);
+      setVotes(playerVotes);
+    }
 
-export {
-  fetchVotes,
-  upvotePlayer,
-  downvotePlayer,
-  
-}
+    fetchVotes();
+  }, [player.id]);
+
+  const handleUpvote = async () => {
+    try {
+      await playerService.upvotePlayer(player.id);
+      setVotes((prevVotes) => ({
+        ...prevVotes,
+        upvotes: (prevVotes?.upvotes || 0) + 1
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDownvote = async () => {
+    try {
+      await playerService.downvotePlayer(player.id);
+      setVotes((prevVotes) => ({
+        ...prevVotes,
+        downvotes: (prevVotes?.downvotes || 0) + 1
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <Box
+      component="div"
+      key={player.id}
+      className={styles.playerCard}
+      display="flex"
+      justifyContent="spread-evenly"
+      alignItems="center"
+      flexDirection="row"
+      borderRadius="12px"
+      padding="6px"
+      marginTop="6px"
+    >
+      <img src={player.photo ? player.photo : '/default-player.jpeg'} alt="" className={styles.playercardImg} />
+      <div className={styles.playerCardContent}>
+        <h1>
+          {player.name} {profileName}
+        </h1>
+        <p>Age: {player.age}</p>
+        <p>Position: {player.position}</p>
+        <p>Current Team: {player.team}</p>
+        <p>Estimated Transfer Fee: {player.transferFee}</p>
+        <VoteManager
+          handleUpvote={handleUpvote}
+          handleDownvote={handleDownvote}
+          player={player}
+        />
+      </div>
+    </Box>
+  );
+};
+
+export default PlayerCard;

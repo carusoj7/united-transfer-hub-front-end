@@ -1,37 +1,33 @@
+//npm modules
 import { useState } from "react";
-import { Vote } from "../../types/models";
+//types
+import { Player } from "../../types/models";
 
-interface VoteProps {
-  vote: Vote | null;
-  handleUpvote: () => Promise<void>;
-  handleDownvote: () => Promise<void>;
-}
+
+  interface VoteProps {
+    player: Player;
+    handleUpvote: () => Promise<void>;
+    handleDownvote: () => Promise<void>;
+  }
+  
 
 const VoteManager = (props: VoteProps): JSX.Element => {
-  const { vote, handleUpvote, handleDownvote } = props;
-  const [hasVoted, setHasVoted] = useState(vote !== null);
-  const [upvotes, setUpvotes] = useState(vote?.upvotes || 0);
-  const [downvotes, setDownvotes] = useState(vote?.downvotes || 0);
+  const { player, handleUpvote, handleDownvote } = props
+  const [hasVoted, setHasVoted] = useState(false);
+  const [upvotes, setUpvotes] = useState(player.upvotes);
+  const [downvotes, setDownvotes] = useState(player.downvotes);
 
-  const handleUpvoteClick = () => {
-    if (hasVoted) {
-      handleDownvote();
-      setUpvotes(upvotes + 1);
-      setDownvotes(downvotes - 1);
-    } else {
-      handleUpvote();
+  const handleUpvoteClick = async () => {
+    if (!hasVoted) {
+      await handleUpvote();
       setUpvotes(upvotes + 1);
       setHasVoted(true);
     }
   };
 
-  const handleDownvoteClick = () => {
-    if (hasVoted) {
-      handleUpvote();
-      setUpvotes(upvotes - 1);
-      setDownvotes(downvotes + 1);
-    } else {
-      handleDownvote();
+  const handleDownvoteClick = async () => {
+    if (!hasVoted) {
+      await handleDownvote();
       setDownvotes(downvotes + 1);
       setHasVoted(true);
     }
@@ -39,16 +35,13 @@ const VoteManager = (props: VoteProps): JSX.Element => {
 
   return (
     <div>
-      <button onClick={handleUpvoteClick} disabled={hasVoted}>
-        Upvote
-      </button>
-      <button onClick={handleDownvoteClick} disabled={hasVoted}>
-        Downvote
-      </button>
+      <button onClick={handleUpvoteClick} disabled={hasVoted}>Upvote</button>
+      <button onClick={handleDownvoteClick} disabled={hasVoted}>Downvote</button>
       <span>Upvotes: {upvotes}</span>
-      <span>Downvotes: {downvotes}</span>
+      <span>Downvotes: {downvotes} </span>
+      {hasVoted}
     </div>
-  );
-};
+  )
+}
 
-export default VoteManager;
+export default VoteManager

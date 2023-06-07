@@ -7,7 +7,8 @@ export interface Player {
   team: string;
   transferFee: number;
   photo: string;
-  votes?: Vote[]
+  upvotes: number,
+  downvotes: number,
   profileId: number;
 }
 
