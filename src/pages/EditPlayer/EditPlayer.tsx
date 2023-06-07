@@ -16,6 +16,7 @@ import { PlayerFormData } from "../../types/forms";
 
 interface UpdatePlayerProps {
   player: Player | null
+  setPlayer: (player: Player | null) => void
   handleUpdatePlayer: (editPlayer:PlayerFormData) => Promise<void>
 }
 
@@ -49,7 +50,7 @@ const handleSubmit = async (evt: FormEvent) => {
       profileId: user.profile.id, 
     }
     await props.handleUpdatePlayer(editedPlayer)
-    setFormData(editedPlayer)
+    props.setPlayer(editedPlayer)
     navigate(`/${editedPlayer.id}`)
   }
 }

@@ -7,12 +7,11 @@ export interface Player {
   team: string;
   transferFee: number;
   photo: string;
-  vote?: Vote
+  votes?: Vote[]
   profileId: number;
 }
 
 export interface Vote {
-  id: number;
   playerId: number;
   profileId: number;
   upvotes: number;

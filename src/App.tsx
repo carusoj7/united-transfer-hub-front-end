@@ -162,7 +162,7 @@ function App(): JSX.Element {
           path="/:playerId/edit"
           element={
             <ProtectedRoute user={user}>
-              <EditPlayer player={player} handleUpdatePlayer={handleUpdatePlayer} />
+              <EditPlayer player={player} setPlayer={setPlayer}handleUpdatePlayer={handleUpdatePlayer} />
             </ProtectedRoute>
           }
         />
@@ -172,7 +172,8 @@ function App(): JSX.Element {
             <ProtectedRoute user={user}>
               <AllPlayers 
               players={players}
-              profileName={profile?.name || ''} />
+              profileName={profile?.name || ''} 
+              profileId={profile?.id || 0}/>
             </ProtectedRoute>
           }
         />

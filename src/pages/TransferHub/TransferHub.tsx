@@ -1,5 +1,6 @@
+import { Box } from "@mui/material";
+
 //npm modules
-import { useState } from "react";
 
 //services
 import * as playerService from '../../services/playerService'
@@ -16,10 +17,11 @@ import styles from './TransferHub.module.css'
 interface PlayerProps {
   players: Player[];
   profileName: string
+  profileId: number
 }
 
 const AllPlayers = (props: PlayerProps): JSX.Element => {
-  const { players, profileName } = props
+  const { players, profileName, profileId } = props
 
   if (!players.length) {
     return <main className={styles.container}><h1>Loading...</h1></main>
@@ -29,10 +31,10 @@ const AllPlayers = (props: PlayerProps): JSX.Element => {
       <h1>Transfer Hub</h1>
       {players.map((player: Player) => (
         <PlayerCard
-        key={player.name}
+        key={player.id}
         player={player}
         profileName= {profileName}
-        vote={player.vote}
+        profileId={profileId}
         />
       ))}
     </main>
