@@ -13,16 +13,26 @@ async function getVotesForPlayer(playerId: number): Promise<Vote> {
   return await res.json() as Vote
 }
 
-async function updateVotesForPlayer(playerId: number, votes: Vote): Promise<void> {
-  const res = await fetch(`${BASE_URL}/${playerId}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${tokenService.getToken()}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(votes),
-  });
-  return await res.json()
+async function updateVotesForPlayer(playerId: number, updatedVotes: Vote, updateVotesCallback: (votes: Vote)=> void): Promise<void> {
+  try {
+    const res = await fetch(`${BASE_URL}/${playerId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${tokenService.getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedVotes),
+    });
+
+    if (res.ok) {
+      const updatedVotes = await res.json();
+      updateVotesCallback(updatedVotes)
+    } else {
+      throw new Error('Failed to update votes');
+    }
+  } catch (error) {
+    throw new Error('Failed to update votes');
+  }
 }
 
 async function upvotePlayer(playerId: number, profileId: number): Promise<void> {

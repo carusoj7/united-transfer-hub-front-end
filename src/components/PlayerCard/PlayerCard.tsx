@@ -1,22 +1,15 @@
 import Box from '@mui/material/Box';
+import { useState, useEffect } from 'react';
+import { Player, Vote } from '../../types/models';
+import * as voteService from '../../services/voteService';
+import styles from './PlayerCard.module.css';
 
-//npm modules
-import { useState, useEffect } from 'react'
-//types
-import { Profile, Player, Vote } from '../../types/models'
-
-//services
-import * as voteService from '../../services/voteService'
-
-//componenets
-import VoteManager from '../VoteManager/VoteManager'
-//css
-import styles from './PlayerCard.module.css'
+import VoteManager from '../VoteManager/VoteManager';
 
 interface PlayerCardProps {
-  player: Player
-  profileName: string
-  profileId: number
+  player: Player;
+  profileName: string;
+  profileId: number;
 }
 
 const PlayerCard = (props: PlayerCardProps): JSX.Element => {
@@ -35,11 +28,10 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
 
     fetchVotes();
   }, [player.id]);
-  
+
   const updateVotes = async (updatedVotes: Vote) => {
     try {
-      await voteService.updateVotesForPlayer(player.id, updatedVotes);
-      setVotes(updatedVotes);
+      await voteService.updateVotesForPlayer(player.id, updatedVotes, setVotes);
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +48,6 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
         const updatedVotes = {
           ...votes,
           upvotes: votes.upvotes + 1,
-          downvotes: votes.downvotes - 1,
         };
         await updateVotes(updatedVotes);
       } else {
@@ -73,7 +64,7 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       console.log(error);
     }
   };
-  
+
   const handleDownvote = async (): Promise<void> => {
     if (votes && votes.profileId === profileId) {
       // User has already voted, show an error or prevent voting again
@@ -84,7 +75,6 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       if (votes) {
         const updatedVotes = {
           ...votes,
-          upvotes: votes.upvotes - 1,
           downvotes: votes.downvotes + 1,
         };
         await updateVotes(updatedVotes);
@@ -103,40 +93,36 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
     }
   };
 
-  const upvotes = votes ? votes.upvotes : 0;
-  const downvotes = votes ? votes.downvotes : 0;
-
-
   return (
-    <Box 
-      component= "div"
+    <Box
+      component="div"
       key={player.id}
       className={styles.playerCard}
-      display="flex" 
-      justifyContent="spread-evenly" 
+      display="flex"
+      justifyContent="spread-evenly"
       alignItems="center"
       flexDirection="row"
       borderRadius="12px"
       padding="6px"
       marginTop="6px"
-      >
-    <Box ><img src={player.photo? player.photo:'/default-player.jpeg'} alt="" className={styles.playercardImg} /></Box>
-    <Box className={styles.playerCardContent}>
-      <h1>{player.name}
-        {profileName}
-      </h1>
-      <p>Age: {player.age}</p>
-      <p>Position: {player.position}</p>
-      <p>Current Team: {player.team}</p>
-      <p>Estimated Transfer Fee: {player.transferFee}</p>
+    >
+      <img src={player.photo ? player.photo : '/default-player.jpeg'} alt="" className={styles.playercardImg} />
+      <div className={styles.playerCardContent}>
+        <h1>
+          {player.name} {profileName}
+        </h1>
+        <p>Age: {player.age}</p>
+        <p>Position: {player.position}</p>
+        <p>Current Team: {player.team}</p>
+        <p>Estimated Transfer Fee: {player.transferFee}</p>
         <VoteManager
           vote={votes}
           handleUpvote={handleUpvote}
           handleDownvote={handleDownvote}
         />
+      </div>
     </Box>
-    </Box>
-  )
-}
+  );
+};
 
-export default PlayerCard
+export default PlayerCard;
