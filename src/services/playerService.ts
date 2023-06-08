@@ -63,7 +63,6 @@ async function fetchVotes(playerId: number): Promise<{ upvotes: number, downvote
   console.log('Votes response:', data);
 
   return data as { upvotes: number, downvotes: number };
-  console.log(playerId, "find this");
   
 }
 
