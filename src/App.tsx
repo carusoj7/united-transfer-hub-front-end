@@ -86,11 +86,7 @@ function App(): JSX.Element {
 
   const handleUpdatePlayer = async (playerFormData: PlayerFormData) => {
     try {
-      const existingPlayer = await playerService.show(playerFormData.id)
-      const updatedPlayer: Player ={
-        ...existingPlayer, ...playerFormData
-      }
-      const updatedPlayerData = await playerService.update(updatedPlayer)
+      const updatedPlayerData = await playerService.update(playerFormData)
       setPlayers((players) => {
         return players.map((player) => {
           if (player.id === updatedPlayerData.id) {
@@ -108,7 +104,7 @@ function App(): JSX.Element {
     try {
       await playerService.deletePlayer(playerId)
       setPlayers(players.filter(p => p.id !== playerId))
-      navigate('/')
+      navigate('/transferhub')
     } catch (error) {
       console.log(error)
     }
@@ -152,18 +148,11 @@ function App(): JSX.Element {
           }
         />
         <Route
-        path="/:playerId"
-        element={
-          <ProtectedRoute user={user}>
-            <PlayerDetails player={player} handleDeletePlayer={handleDeletePlayer} />
-          </ProtectedRoute>
-        }
-        />
-        <Route
           path="/:playerId/edit"
           element={
             <ProtectedRoute user={user}>
-              <EditPlayer player={player} setPlayer={setPlayer}handleUpdatePlayer={handleUpdatePlayer} />
+              <EditPlayer player={player} setPlayer={setPlayer}
+              handleUpdatePlayer={handleUpdatePlayer}/>
             </ProtectedRoute>
           }
         />
@@ -174,7 +163,9 @@ function App(): JSX.Element {
               <AllPlayers 
               players={players}
               profileName={profile?.name || ''} 
-              user={user}/>
+              user={user}
+              handleDeletePlayer={handleDeletePlayer}
+              />
             </ProtectedRoute>
           }
         />

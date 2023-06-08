@@ -6,7 +6,6 @@ export interface PlayerFormData {
   position: string;
   team: string;
   transferFee: number;
-  photo: string;
   profileId: number;
 }
 

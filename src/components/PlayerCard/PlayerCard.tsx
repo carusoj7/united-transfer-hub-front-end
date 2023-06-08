@@ -2,6 +2,9 @@ import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react';
 import { Player } from '../../types/models';
 import { Vote } from '../../types/models';
+import { Link } from 'react-router-dom';
+
+import { PlayerFormData } from '../../types/forms';
 
 import * as voteService from '../../services/voteService'
 
@@ -12,10 +15,11 @@ interface PlayerCardProps {
   player: Player;
   profileName: string;
   profileId: number;
+  handleDeletePlayer: (playerId: number) => Promise<void>;
 }
 
 const PlayerCard = (props: PlayerCardProps): JSX.Element => {
-  const { player, profileName, profileId } = props;
+  const { player, profileName, profileId, handleDeletePlayer } = props;
   const [votes, setVotes] = useState<Vote>({ profileId: 0, playerId: 0, upvotes: 0, downvotes: 0 })
 
   console.log(player, 'This is player');
@@ -65,6 +69,10 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
     }
   }
 
+  const handleDelete = () => {
+    handleDeletePlayer(player.id);
+  };
+
   return (
     <Box
       component="div"
@@ -95,6 +103,13 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
           votes={votes ?? { upvotes: 0, downvotes: 0 }}
         />
       </div>
+      <button>
+          <Link to={`/${player.id}/edit`} state={player}>
+            Edit
+          </Link>
+        </button>
+      
+      <button onClick={handleDelete}>Delete</button>
     </Box>
   );
 };

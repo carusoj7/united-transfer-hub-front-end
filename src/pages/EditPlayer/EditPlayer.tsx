@@ -17,7 +17,7 @@ import { PlayerFormData } from "../../types/forms";
 interface UpdatePlayerProps {
   player: Player | null
   setPlayer: (player: Player | null) => void
-  handleUpdatePlayer: (editPlayer:PlayerFormData) => Promise<void>
+  handleUpdatePlayer: (editPlayer:PlayerFormData) => Promise<Player | void>
 }
 
 const EditPlayer = (props: UpdatePlayerProps) => {
@@ -41,19 +41,23 @@ const EditPlayer = (props: UpdatePlayerProps) => {
   }
 
 
-const handleSubmit = async (evt: FormEvent) => {
-  evt.preventDefault()
-  const user = getUserFromToken()
-  if (user && formData) {
-    const editedPlayer: Player = {
-      ...formData,
-      profileId: user.profile.id, 
+  const handleSubmit = async (evt: FormEvent) => {
+    evt.preventDefault()
+    const user = getUserFromToken()
+    if (user && formData) {
+      const editedPlayer: Player = {
+        ...formData,
+        profileId: user.profile.id, 
+      }
+      try {
+        await props.handleUpdatePlayer(editedPlayer);
+        props.setPlayer(editedPlayer); // Update the player in the state immediately
+        navigate('/transferhub'); // Navigate to the all players page
+      } catch (error) {
+        console.log('Player update failed', error);
+      }
     }
-    await props.handleUpdatePlayer(editedPlayer)
-    props.setPlayer(editedPlayer)
-    navigate(`/${editedPlayer.id}`)
-  }
-}
+  };
 
   return (
     <section className={styles.newPlayerContainer}>

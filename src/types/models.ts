@@ -6,9 +6,9 @@ export interface Player {
   position: string;
   team: string;
   transferFee: number;
-  photo: string;
   votesReceived?: Vote[]
   profileId: number;
+  photo?: string
 }
 
 export interface Vote {
