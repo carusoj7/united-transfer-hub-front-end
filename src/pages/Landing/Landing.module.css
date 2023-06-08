@@ -1,5 +1,26 @@
 .container {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
+  height: 100vh;
+  padding-top: 80px;
+}
+
+h1 {
+  font-size: 24px; /* Adjust the font size as desired */
+  color: red;
+}
+
+iframe {
+  width: 50%;
+  height: 50%;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 0;
+  padding-top: 80px;
 }

@@ -17,6 +17,7 @@ const NavBar = (props: NavBarProps): JSX.Element => {
   
   return (
     <nav className={styles.nav}>
+      <img src="/Manchester_United_logo.png" alt="MU Icon" />
       {user ?
         <ul>
           <li>Welcome, {user.name}</li>

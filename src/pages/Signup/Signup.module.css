@@ -1,3 +1,9 @@
+h1 {
+  font-size: 35px;
+  display: flex;
+  
+}
+
 input {
   margin-left: 16px;
   padding: 4px 8px;
@@ -13,6 +19,8 @@ input[type="file"] {
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-top: 0;
+  padding-top: 80px;
 }
 
 .message {
@@ -35,7 +43,7 @@ input[type="file"] {
   display: flex;
   justify-content: end;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 50px;
 }
 
 .button {

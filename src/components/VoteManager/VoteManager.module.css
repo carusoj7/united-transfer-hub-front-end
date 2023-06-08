@@ -1,0 +1,13 @@
+.voteManager {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.voteManager button {
+  border-radius: 6px;
+  padding: 8px 15px;
+  font-weight: 800;
+  background-color: #DA291C;
+  box-shadow: 2px 2px 2px #DA291C;
+}

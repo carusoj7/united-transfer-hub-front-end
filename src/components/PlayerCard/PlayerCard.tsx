@@ -1,53 +1,70 @@
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react';
 import { Player } from '../../types/models';
+import { Vote } from '../../types/models';
 import * as playerService from '../../services/playerService';
-import styles from './PlayerCard.module.css';
 
+import * as voteService from '../../services/voteService'
+
+import styles from './PlayerCard.module.css';
 import VoteManager from '../VoteManager/VoteManager';
 
 interface PlayerCardProps {
-  player: Player
-  profileName: string
-  profileId: number
+  player: Player;
+  profileName: string;
+  profileId: number;
 }
 
 const PlayerCard = (props: PlayerCardProps): JSX.Element => {
-  const { player, profileName, profileId } = props
-  const [votes, setVotes] = useState<{ upvotes?: number; downvotes?: number } | null>(null)
+  const { player, profileName, profileId } = props;
+  const [votes, setVotes] = useState<Vote>({ profileId: 0, playerId: 0, upvotes: 0, downvotes: 0 })
+
+  console.log(player, 'This is player');
 
   useEffect(() => {
     async function fetchVotes() {
-      const playerVotes = await playerService.fetchVotes(player.id)
-      setVotes(playerVotes)
+      const playerVotes = await voteService.fetchVotes(player.id);
+      setVotes({
+        profileId: profileId,
+        playerId: player.id,
+        upvotes: playerVotes.upvotes,
+        downvotes: playerVotes.downvotes,
+      });
+      console.log(playerVotes);
     }
 
-    fetchVotes()
-  }, [player.id])
+    fetchVotes();
+  }, [player.id, profileId]);
 
   const handleUpvote = async () => {
     try {
-      await playerService.upvotePlayer(player.id)
+      await voteService.upvotePlayer(player.id)
       setVotes((prevVotes) => ({
         ...prevVotes,
-        upvotes: (prevVotes?.upvotes || 0) + 1
-      }))
+        playerId:player.id,
+        profileId: profileId,
+        upvotes: (prevVotes?.upvotes || 0) + 1,
+        downvotes: prevVotes?.downvotes || 0,
+      }));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   const handleDownvote = async () => {
     try {
-      await playerService.downvotePlayer(player.id)
+      await voteService.downvotePlayer(player.id)
       setVotes((prevVotes) => ({
         ...prevVotes,
-        downvotes: (prevVotes?.downvotes || 0) + 1
+        playerId: player.id,
+        profileId: profileId,
+        upvotes: prevVotes?.upvotes || 0,
+        downvotes: (prevVotes?.downvotes || 0) + 1,
       }))
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  };
+  }
 
   return (
     <Box
@@ -70,12 +87,13 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
         <p>Age: {player.age}</p>
         <p>Position: {player.position}</p>
         <p>Current Team: {player.team}</p>
-        <p>Estimated Transfer Fee: {player.transferFee}</p>
+        <p>Estimated Transfer Fee: £{player.transferFee.toLocaleString()}</p>
         <VoteManager
           handleUpvote={handleUpvote}
           handleDownvote={handleDownvote}
-          player={player}
+          player={{ ...player, votesReceived: []}}
           profileId={profileId}
+          votes={votes ?? { upvotes: 0, downvotes: 0 }}
         />
       </div>
     </Box>

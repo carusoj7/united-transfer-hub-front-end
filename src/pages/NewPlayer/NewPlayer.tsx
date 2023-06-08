@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 //types
-import { Player } from "../../types/models";
+import { Player, Vote } from "../../types/models";
 import { PlayerFormData } from "../../types/forms";
 
 //services
@@ -28,9 +28,6 @@ const NewPlayer = (props: NewPlayerProps) => {
     transferFee: 0,
     photo: '',
     profileId: 0,
-    upvotes: 0,
-    downvotes: 0,
-
   })
 
   const navigate = useNavigate()
@@ -60,6 +57,7 @@ const NewPlayer = (props: NewPlayerProps) => {
       const newPlayer: Player = {
         ...formData,
         profileId: user.profile.id, 
+        votesReceived: []
       }
       props.handleAddPlayer(newPlayer)
       navigate('/transferhub')

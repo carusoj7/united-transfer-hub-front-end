@@ -8,8 +8,6 @@ export interface PlayerFormData {
   transferFee: number;
   photo: string;
   profileId: number;
-  upvotes: number;
-  downvotes: number;
 }
 
 
