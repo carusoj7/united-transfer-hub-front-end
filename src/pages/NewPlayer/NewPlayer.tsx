@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 //types
-import { Player, Vote } from "../../types/models";
+import { Player } from "../../types/models";
 import { PlayerFormData } from "../../types/forms";
 
 //services

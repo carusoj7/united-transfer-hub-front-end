@@ -3,7 +3,7 @@ import * as tokenService from './tokenService';
 
 // types
 
-import { Vote, Player } from '../types/models';
+//import { Vote, Player } from '../types/models';
 
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/votes`;
 

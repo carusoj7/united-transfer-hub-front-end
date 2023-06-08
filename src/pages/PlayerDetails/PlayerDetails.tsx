@@ -6,9 +6,9 @@ import { useParams, Link } from "react-router-dom";
 import * as playerService from '../../services/playerService'
 
 //components
-import PlayerCard from "../../components/PlayerCard/PlayerCard";
+//import PlayerCard from "../../components/PlayerCard/PlayerCard";
 //css
-import styles from './PlayerDetails.module.css'
+//import styles from './PlayerDetails.module.css'
 
 //types
 import { Player } from "../../types/models";

@@ -10,7 +10,7 @@ import styles from './EditPlayer.module.css'
 import { getUserFromToken } from "../../services/tokenService";
 
 //types
-import { Player, Profile } from "../../types/models";
+import { Player } from "../../types/models";
 import { PlayerFormData } from "../../types/forms";
 
 

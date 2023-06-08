@@ -1,15 +1,14 @@
-import { Box } from "@mui/material";
 
 //npm modules
 
 //services
-import * as playerService from '../../services/playerService'
+//import * as playerService from '../../services/playerService'
 
 //components
 import PlayerCard from "../../components/PlayerCard/PlayerCard";
 
 // types
-import { Profile, Player, User } from '../../types/models'
+import { Player, User } from '../../types/models'
 
 //css
 import styles from './TransferHub.module.css'
