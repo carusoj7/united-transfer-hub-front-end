@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react';
 import { Player } from '../../types/models';
 import { Vote } from '../../types/models';
-import * as playerService from '../../services/playerService';
 
 import * as voteService from '../../services/voteService'
 

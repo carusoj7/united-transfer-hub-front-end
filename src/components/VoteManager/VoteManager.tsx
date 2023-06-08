@@ -12,7 +12,7 @@ interface VoteProps {
 }
 
 const VoteManager = (props: VoteProps): JSX.Element => {
-  const { player, profileId, handleUpvote, handleDownvote, votes } = props;
+  const {  handleUpvote, handleDownvote, votes } = props;
   const [hasUpvoted, setHasUpvoted] = useState(false)
   const [hasDownvoted, setHasDownvoted] = useState(false)
 
