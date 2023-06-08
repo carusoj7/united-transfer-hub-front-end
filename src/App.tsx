@@ -20,7 +20,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import * as authService from './services/authService'
 import * as playerService from './services/playerService'
 import * as profileService from './services/profileService'
-import * as voteService from './services/voteService'
+//import * as voteService from './services/voteService'
 
 // styles
 import './App.css'
