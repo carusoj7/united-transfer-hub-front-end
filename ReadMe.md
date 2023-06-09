@@ -5,7 +5,7 @@ United Transfer Hub! This application is designed exclusively for Manchester Uni
 
 # Getting Started
 
-## Build your [United Transfer Hub](https://united-transfer-hub.netlify.app/ "United Transfer Hub Link")
+## [United Transfer Hub](https://united-transfer-hub.netlify.app/ "United Transfer Hub Link")
 
 #### Project planning [here](https://trello.com/b/ViPpw9HD/united-transfer-hub "Trello Board")
 
