@@ -48,6 +48,7 @@ input[type="file"] {
 
 .button {
   margin-left: 16px;
+  margin-top: 12px;
 }
 
 .form > label:last-of-type {

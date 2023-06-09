@@ -25,7 +25,6 @@ const NavBar = (props: NavBarProps): JSX.Element => {
           <li>Welcome, {user.name}</li>
           <li><NavLink to="/transferhub">Transfer Hub</NavLink></li>
           <li><NavLink to="/new"> Add Transfer Target</NavLink></li>
-          <li><NavLink to="/profiles">Profiles</NavLink></li>
           <li><NavLink to="" onClick={handleLogout}>LOG OUT</NavLink></li>
           <li><NavLink to="/auth/change-password">Change Password</NavLink></li>
         </ul>

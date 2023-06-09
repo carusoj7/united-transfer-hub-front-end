@@ -72,7 +72,7 @@ const LoginPage = (props: AuthPageProps): JSX.Element => {
             onChange={handleChange}
           />
         </label>
-        <div>
+        <div className="buttons-container">
           <Link to="/">Cancel</Link>
           <button className={styles.button} disabled={isFormInvalid()}>
             Log In

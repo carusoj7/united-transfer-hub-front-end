@@ -38,8 +38,23 @@ input {
 
 .button {
   margin-left: 16px;
+  margin-top: 12px;
 }
 
 .form > label:last-of-type {
   margin-bottom: 16px;
+}
+.cancel-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  width: 100%; /* Set the width to 100% */
+  max-width: 300px; 
 }
