@@ -1,11 +1,11 @@
 .newPlayerContainer {
-  max-width: 400px;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding-top: 300px;
 }
 
 .newPlayerContainer h1 {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .newPlayerContainer form label {

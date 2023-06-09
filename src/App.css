@@ -6,11 +6,11 @@
 
 body {
   box-sizing: border-box;
-
+  
   margin: 0;
   min-height: 100vh;
 
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
 
   color: #DA291c;
   font-size: large;

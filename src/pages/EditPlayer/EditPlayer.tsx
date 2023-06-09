@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 import styles from './EditPlayer.module.css'
 
 //services
-//services
 import { getUserFromToken } from "../../services/tokenService"
 
 //types
@@ -17,14 +16,14 @@ import { PlayerFormData } from "../../types/forms"
 interface UpdatePlayerProps {
   player: Player | null
   setPlayer: (player: Player | null) => void
-  handleUpdatePlayer: (editPlayer:PlayerFormData) => Promise<Player | void>
+  handleUpdatePlayer: (editPlayer: PlayerFormData) => Promise<Player | void>
 }
 
 const EditPlayer = (props: UpdatePlayerProps) => {
   const { state } = useLocation()
   const [formData, setFormData] = useState<PlayerFormData>(state as PlayerFormData)
   const navigate = useNavigate()
-  
+
   useEffect(() => {
     const user = getUserFromToken()
     if (!user || (formData && user.profile.id !== formData.profileId)) {
@@ -34,12 +33,9 @@ const EditPlayer = (props: UpdatePlayerProps) => {
     }
   }, [formData, navigate])
 
-
-
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value })
   }
-
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
@@ -47,12 +43,12 @@ const EditPlayer = (props: UpdatePlayerProps) => {
     if (user && formData) {
       const editedPlayer: Player = {
         ...formData,
-        profileId: user.profile.id, 
+        profileId: user.profile.id,
       }
       try {
         await props.handleUpdatePlayer(editedPlayer)
-        props.setPlayer(editedPlayer) // Update the player in the state immediately
-        navigate('/transferhub') // Navigate to the all players page
+        props.setPlayer(editedPlayer)
+        navigate('/transferhub')
       } catch (error) {
         console.log('Player update failed', error)
       }
@@ -61,56 +57,56 @@ const EditPlayer = (props: UpdatePlayerProps) => {
 
   return (
     <section className={styles.newPlayerContainer}>
-    <h1> Edit Transfer Target </h1>
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        value={formData.name}
-        onChange= {handleChange}
-      />
-      <label htmlFor="age">Age</label>
-      <input
-        type="number"
-        id="age"
-        name="age"
-        value={formData.age}
-        onChange= {handleChange}
-      />
-      <label htmlFor="position">Position</label>
-      <input
-        type="text"
-        id="position"
-        name="position"
-        value={formData.position}
-        onChange= {handleChange}
-      />
-      <label htmlFor="team">Current Team</label>
-      <input
-        type="text"
-        id="team"
-        name="team"
-        value={formData.team}
-        onChange= {handleChange}
-      />
-      <label htmlFor="transferFee">Estimated Transfer Fee</label>
-      <input
-        type="number"
-        id="transferFee"
-        name="transferFee"
-        value={formData.transferFee}
-        onChange= {handleChange}
-      />
-      <label htmlFor="photo">Photo</label>
-      <input
-        type="file"
-        id="photo"
-        name="photo"
-      />
-      <button type="submit">Save</button>
-    </form>
+      <h1> Edit Transfer Target </h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <label htmlFor="age">Age</label>
+        <input
+          type="number"
+          id="age"
+          name="age"
+          value={formData.age}
+          onChange={handleChange}
+        />
+        <label htmlFor="position">Position</label>
+        <input
+          type="text"
+          id="position"
+          name="position"
+          value={formData.position}
+          onChange={handleChange}
+        />
+        <label htmlFor="team">Current Team</label>
+        <input
+          type="text"
+          id="team"
+          name="team"
+          value={formData.team}
+          onChange={handleChange}
+        />
+        <label htmlFor="transferFee">Estimated Transfer Fee</label>
+        <input
+          type="number"
+          id="transferFee"
+          name="transferFee"
+          value={formData.transferFee}
+          onChange={handleChange}
+        />
+        <label htmlFor="photo">Photo</label>
+        <input
+          type="file"
+          id="photo"
+          name="photo"
+        />
+        <button type="submit">Save</button>
+      </form>
     </section>
   )
 }

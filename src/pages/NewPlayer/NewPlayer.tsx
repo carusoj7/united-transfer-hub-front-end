@@ -15,7 +15,7 @@ interface NewPlayerProps {
 
 const NewPlayer = (props: NewPlayerProps): JSX.Element => {
   const imgInputRef = useRef<HTMLInputElement | null>(null)
-  const [ message, setMessage] = useState('')
+  const [message, setMessage] = useState('')
   const [formData, setFormData] = useState<PlayerFormData>({
     id: 0,
     name: '',
@@ -56,8 +56,6 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
     let errMsg = ""
     const validFormats = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'webp']
     const photoFormat = file.name.split('.').at(-1)
-
-    // cloudinary supports files up to 10.4MB each as of May 2023
     if (file.size >= 10485760) {
       errMsg = "Image must be smaller than 10.4MB"
       isFileInvalid = true
@@ -66,9 +64,9 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
       errMsg = "Image must be in gif, jpeg/jpg, png, svg, or webp format"
       isFileInvalid = true
     }
-    
+
     setMessage(errMsg)
-    
+
     if (isFileInvalid && imgInputRef.current) {
       imgInputRef.current.value = ""
       return message
@@ -83,13 +81,12 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
     if (user) {
       const newPlayer: Player = {
         ...formData,
-        profileId: user.profile.id, 
+        profileId: user.profile.id,
       }
       props.handleAddPlayer(newPlayer, photoData)
       navigate('/transferhub')
     }
   }
-
 
   return (
     <section className={styles.newPlayerContainer}>

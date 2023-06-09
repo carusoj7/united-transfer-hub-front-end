@@ -20,7 +20,6 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import * as authService from './services/authService'
 import * as playerService from './services/playerService'
 import * as profileService from './services/profileService'
-//import * as voteService from './services/voteService'
 
 // styles
 import './App.css'
@@ -77,7 +76,7 @@ function App(): JSX.Element {
     try {
       const createdPlayer = await playerService.createPlayer(newPlayer, photoData)
       if (players)
-        setPlayers([ createdPlayer, ...players])
+        setPlayers([createdPlayer, ...players])
       else
         setPlayers([createdPlayer])
     } catch (error) {

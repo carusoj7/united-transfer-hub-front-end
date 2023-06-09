@@ -22,13 +22,13 @@ async function getProfile(): Promise<Profile> {
 }
 async function addPhoto(photoData: PhotoFormData): Promise<string> {
   if (!photoData.photo) throw new Error("No photo found.")
-  
+
   const photoFormData = new FormData()
   photoFormData.append('photo', photoData.photo)
 
   const user = tokenService.getUserFromToken()
   if (!user) throw new Error("No user.")
-  
+
   const profileId = user.profile.id
   const res = await fetch(`${BASE_URL}/${profileId}/add-photo`, {
     method: 'PUT',

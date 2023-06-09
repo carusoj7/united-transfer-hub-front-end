@@ -20,7 +20,7 @@ input[type="file"] {
   align-items: center;
   flex-direction: column;
   margin-top: 0;
-  padding-top: 80px;
+  padding-top: 300px;
 }
 
 .message {

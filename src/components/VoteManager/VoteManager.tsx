@@ -1,5 +1,4 @@
-import { useState } from "react"
-import { Player, Vote } from "../../types/models"
+import { Vote } from "../../types/models"
 
 import styles from './VoteManager.module.css'
 
@@ -13,7 +12,7 @@ interface VoteProps {
 }
 
 const VoteManager = (props: VoteProps): JSX.Element => {
-  const {  handleUpvote, handleDownvote, upvotes, downvotes, vote } = props
+  const { handleUpvote, handleDownvote, upvotes, downvotes, vote } = props
 
   const handleUpvoteClick = async () => {
     if (vote?.vote !== 1) {
@@ -30,7 +29,7 @@ const VoteManager = (props: VoteProps): JSX.Element => {
   return (
     <div className={styles.voteManager}>
       <button onClick={handleUpvoteClick} disabled={vote?.vote === 1}>
-      👍
+        👍
       </button>
       <span>{upvotes}</span>
       <button onClick={handleDownvoteClick} disabled={vote?.vote === -1}>

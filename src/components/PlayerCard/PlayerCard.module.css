@@ -9,11 +9,13 @@
 .playerCard {
   border: .3vw solid black;
   box-shadow: 7px 7px #DA291C;
+  box-shadow: rgba(218, 41, 28, 0.4) 5px 5px, rgba(218, 41, 28, 0.3) 10px 10px, rgba(218, 41, 28, 0.2) 15px 15px, rgba(218, 41, 28, 0.1) 20px 20px, rgba(218, 41, 28, 0.05) 25px 25px;
   margin-bottom: 2.5vw;
   width: 800px; /* Adjust the width as desired */
   height: auto;
   margin-left: auto;
   margin-right: auto;
+  background: #d5c0c0
 }
 .edit > a {
   text-decoration: none;
@@ -34,4 +36,5 @@ h2 {
   color: #DA291C;
   display: flex;
   justify-content: center;
+  font-weight: bold;
 }

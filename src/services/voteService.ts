@@ -12,18 +12,18 @@ async function fetchVotes(playerId: number): Promise<VoteStatus> {
     headers: {
       'Authorization': `Bearer ${tokenService.getToken()}`,
     },
-  });
+  })
 
   const data = await res.json();
 
-  return data as VoteStatus;
+  return data as VoteStatus
 }
 
 async function upvotePlayer(playerId: number): Promise<Vote> {
   const res = await fetch(`${BASE_URL}/${playerId}/upvote`, {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${tokenService.getToken()}` },
-  });
+  })
   return await res.json() as Vote
 }
 
@@ -31,7 +31,7 @@ async function downvotePlayer(playerId: number): Promise<Vote> {
   const res = await fetch(`${BASE_URL}/${playerId}/downvote`, {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${tokenService.getToken()}` },
-  });
+  })
   return await res.json() as Vote
 }
 
