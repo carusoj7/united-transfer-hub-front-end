@@ -3,11 +3,7 @@ import { useState, useEffect } from 'react';
 import { Player } from '../../types/models';
 import { Vote } from '../../types/models';
 import { Link } from 'react-router-dom';
-
-import { PlayerFormData } from '../../types/forms';
-
 import * as voteService from '../../services/voteService'
-
 import styles from './PlayerCard.module.css';
 import VoteManager from '../VoteManager/VoteManager';
 
@@ -30,7 +26,7 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
     async function fetchVotes() {
       const playerVotes = await voteService.fetchVotes(player.id);
       console.log(playerVotes);
-      
+
       setVote(playerVotes.existingVote);
       setUpvotes(playerVotes.upvotes);
       setDownvotes(playerVotes.downvotes);
@@ -44,7 +40,7 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
     try {
       const updatedVote = await voteService.upvotePlayer(player.id)
       if (vote?.vote === -1) {
-        setDownvotes(value => value - 1) 
+        setDownvotes(value => value - 1)
       }
       setVote(updatedVote)
       setUpvotes(value => value + 1)
@@ -57,7 +53,7 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
     try {
       const updatedVote = await voteService.downvotePlayer(player.id)
       if (vote?.vote === 1) {
-        setUpvotes(value => value - 1) 
+        setUpvotes(value => value - 1)
       }
       setVote(updatedVote)
       setDownvotes(value => value + 1)
@@ -84,8 +80,8 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       padding="6px"
       marginTop="6px"
     >
-      <img src={player.photo ? player.photo : '/default-player.jpeg'} alt="" className={styles.playercardImg} style={{ width: "250px", height: "250px"}} />
-      
+      <img src={player.photo ? player.photo : '/default-player.jpeg'} alt="" className={styles.playercardImg} style={{ width: "250px", height: "250px" }} />
+
       <div className={styles.playerCardContent}>
         <h1>
           {player.name} {profileName}
@@ -103,15 +99,15 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
           downvotes={downvotes}
         />
       </div>
-      { profileId == player.profileId && 
-<>
-<button className={styles.edit}>
-<Link to={`/${player.id}/edit`} state={player}>
-  Edit
-</Link>
-</button>
-<button className={styles.delete} onClick={handleDelete}>Delete</button>
-</>
+      {profileId == player.profileId &&
+        <>
+          <button className={styles.edit}>
+            <Link to={`/${player.id}/edit`} state={player}>
+              Edit
+            </Link>
+          </button>
+          <button className={styles.delete} onClick={handleDelete}>Delete</button>
+        </>
       }
     </Box>
   );
