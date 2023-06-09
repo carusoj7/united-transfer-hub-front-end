@@ -20,19 +20,20 @@ interface PlayerCardProps {
 
 const PlayerCard = (props: PlayerCardProps): JSX.Element => {
   const { player, profileName, profileId, handleDeletePlayer } = props;
-  const [votes, setVotes] = useState<Vote>({ profileId: 0, playerId: 0, upvotes: 0, downvotes: 0 })
+  const [vote, setVote] = useState<Vote>({ profileId: 0, playerId: 0, vote: 0 })
+  const [upvotes, setUpvotes] = useState(0)
+  const [downvotes, setDownvotes] = useState(0)
 
   console.log(player, 'This is player');
 
   useEffect(() => {
     async function fetchVotes() {
       const playerVotes = await voteService.fetchVotes(player.id);
-      setVotes({
-        profileId: profileId,
-        playerId: player.id,
-        upvotes: playerVotes.upvotes,
-        downvotes: playerVotes.downvotes,
-      });
+      console.log(playerVotes);
+      
+      setVote(playerVotes.existingVote);
+      setUpvotes(playerVotes.upvotes);
+      setDownvotes(playerVotes.downvotes);
       console.log(playerVotes);
     }
 
@@ -41,14 +42,12 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
 
   const handleUpvote = async () => {
     try {
-      await voteService.upvotePlayer(player.id)
-      setVotes((prevVotes) => ({
-        ...prevVotes,
-        playerId:player.id,
-        profileId: profileId,
-        upvotes: (prevVotes?.upvotes || 0) + 1,
-        downvotes: prevVotes?.downvotes || 0,
-      }));
+      const updatedVote = await voteService.upvotePlayer(player.id)
+      if (vote?.vote === -1) {
+        setDownvotes(value => value - 1) 
+      }
+      setVote(updatedVote)
+      setUpvotes(value => value + 1)
     } catch (error) {
       console.log(error);
     }
@@ -56,14 +55,12 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
 
   const handleDownvote = async () => {
     try {
-      await voteService.downvotePlayer(player.id)
-      setVotes((prevVotes) => ({
-        ...prevVotes,
-        playerId: player.id,
-        profileId: profileId,
-        upvotes: prevVotes?.upvotes || 0,
-        downvotes: (prevVotes?.downvotes || 0) + 1,
-      }))
+      const updatedVote = await voteService.downvotePlayer(player.id)
+      if (vote?.vote === 1) {
+        setUpvotes(value => value - 1) 
+      }
+      setVote(updatedVote)
+      setDownvotes(value => value + 1)
     } catch (error) {
       console.log(error);
     }
@@ -98,9 +95,10 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
         <VoteManager
           handleUpvote={handleUpvote}
           handleDownvote={handleDownvote}
-          player={{ ...player, votesReceived: []}}
+          vote={vote}
           profileId={profileId}
-          votes={votes ?? { upvotes: 0, downvotes: 0 }}
+          upvotes={upvotes}
+          downvotes={downvotes}
         />
       </div>
       <button>

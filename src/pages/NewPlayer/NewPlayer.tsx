@@ -48,61 +48,17 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
     }));
   };
 
-  const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (!evt.target.files) return;
-    const file = evt.target.files[0];
-    let isFileInvalid = false;
-    const validFormats = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'webp'];
-    const photoFormat = file.name.split('.').at(-1);
-
-    // cloudinary supports files up to 10.4MB each as of May 2023
-    if (file.size >= 10485760) {
-      isFileInvalid = true;
-    }
-    if (photoFormat && !validFormats.includes(photoFormat)) {
-      isFileInvalid = true;
-    }
-    if (isFileInvalid && imgInputRef.current) {
-      imgInputRef.current.value = '';
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPhotoData({ photo: file });
-    };
-    reader.readAsDataURL(file);
-  };
-
   const handleSubmit = async (evt: FormEvent) => {
-    evt.preventDefault();
-    const user = getUserFromToken();
+    evt.preventDefault()
+    const user = getUserFromToken()
     if (user) {
-      let photo: string | undefined;
-      if (photoData.photo) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          photo = reader.result as string;
-          const newPlayer: Player = {
-            ...formData,
-            profileId: user.profile.id,
-            votesReceived: [] as Vote[],
-            photo: photo,
-          };
-          props.handleAddPlayer(newPlayer);
-          navigate('/transferhub');
-        };
-        reader.readAsDataURL(photoData.photo);
-      } else {
-        const newPlayer: Player = {
-          ...formData,
-          profileId: user.profile.id,
-          votesReceived: [] as Vote[],
-          photo: undefined,
-        };
-        props.handleAddPlayer(newPlayer);
-        navigate('/transferhub');
+      const newPlayer: Player = {
+        ...formData,
+        profileId: user.profile.id, 
+        votesReceived: []
       }
+      props.handleAddPlayer(newPlayer)
+      navigate('/transferhub')
     }
   };
 
@@ -155,8 +111,7 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
         <input
           type="file"
           name="photo"
-          onChange={handleChangePhoto}
-          ref={imgInputRef}
+          id="photo"
         />
         <button type="submit">Create Transfer Target</button>
       </form>

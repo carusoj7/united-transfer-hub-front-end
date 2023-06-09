@@ -4,44 +4,39 @@ import { Player, Vote } from "../../types/models";
 import styles from './VoteManager.module.css'
 
 interface VoteProps {
-  player: Player;
   profileId: number;
   handleUpvote: () => Promise<void>;
   handleDownvote: () => Promise<void>;
-  votes: Vote;
+  upvotes: number;
+  downvotes: number;
+  vote: Vote
 }
 
 const VoteManager = (props: VoteProps): JSX.Element => {
-  const {  handleUpvote, handleDownvote, votes } = props;
-  const [hasUpvoted, setHasUpvoted] = useState(false)
-  const [hasDownvoted, setHasDownvoted] = useState(false)
+  const {  handleUpvote, handleDownvote, upvotes, downvotes, vote } = props;
 
   const handleUpvoteClick = async () => {
-    if (!hasUpvoted) {
+    if (vote?.vote !== 1) {
       await handleUpvote();
-      setHasUpvoted(true)
-      setHasDownvoted(false)
     }
   };
 
   const handleDownvoteClick = async () => {
-    if (!hasDownvoted) {
+    if (vote?.vote !== -1) {
       await handleDownvote();
-      setHasDownvoted(true)
-      setHasUpvoted(false)
     }
   };
 
   return (
     <div className={styles.voteManager}>
-      <button onClick={handleUpvoteClick} disabled={hasUpvoted}>
+      <button onClick={handleUpvoteClick} disabled={vote?.vote === 1}>
       👍
       </button>
-      <span>{votes?.upvotes || 0}</span>
-      <button onClick={handleDownvoteClick} disabled={hasDownvoted}>
+      <span>{upvotes}</span>
+      <button onClick={handleDownvoteClick} disabled={vote?.vote === -1}>
         👎
       </button>
-      <span>{votes?.downvotes || 0}</span>
+      <span>{downvotes}</span>
     </div>
   );
 };
