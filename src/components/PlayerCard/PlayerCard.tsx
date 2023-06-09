@@ -70,6 +70,7 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
     handleDeletePlayer(player.id);
   };
 
+  console.log(player.photo, player);
   return (
     <Box
       component="div"
@@ -83,7 +84,8 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       padding="6px"
       marginTop="6px"
     >
-      <img src={player.photo ? player.photo : '/default-player.jpeg'} alt="" className={styles.playercardImg} />
+      <img src={player.photo ? player.photo : '/default-player.jpeg'} alt="" className={styles.playercardImg} style={{ width: "250px", height: "250px"}} />
+      
       <div className={styles.playerCardContent}>
         <h1>
           {player.name} {profileName}
@@ -101,13 +103,16 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
           downvotes={downvotes}
         />
       </div>
-      <button>
-          <Link to={`/${player.id}/edit`} state={player}>
-            Edit
-          </Link>
-        </button>
-      
-      <button onClick={handleDelete}>Delete</button>
+      { profileId == player.profileId && 
+<>
+<button className={styles.edit}>
+<Link to={`/${player.id}/edit`} state={player}>
+  Edit
+</Link>
+</button>
+<button className={styles.delete} onClick={handleDelete}>Delete</button>
+</>
+      }
     </Box>
   );
 };

@@ -2,12 +2,12 @@
 import * as tokenService from './tokenService';
 
 // Types
-import { PlayerFormData } from '../types/forms';
+import { PlayerFormData, PhotoFormData } from '../types/forms';
 import { Player } from '../types/models';
 
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/players`;
 
-async function createPlayer(playerFormData: PlayerFormData): Promise<Player> {
+async function createPlayer(playerFormData: PlayerFormData, photoData:PhotoFormData): Promise<Player> {
   const res = await fetch(BASE_URL, {
     method: 'POST',
     headers: {
@@ -16,7 +16,35 @@ async function createPlayer(playerFormData: PlayerFormData): Promise<Player> {
     },
     body: JSON.stringify(playerFormData)
   });
-  return await res.json() as Player;
+  let data = await res.json() as Player;
+  console.log(data);
+  
+  if (photoData.photo) {
+    console.log("ADD PLAYER PHOTO IS WORKING");
+    data = await addPlayerPhoto(data.id, photoData)
+    
+  }
+  return data
+}
+
+async function addPlayerPhoto(playerId: number, photoData: PhotoFormData): Promise<Player> {
+  if (!photoData.photo) throw new Error("No photo found.")
+  
+  const photoFormData = new FormData()
+  photoFormData.append('photo', photoData.photo)
+
+  const user = tokenService.getUserFromToken()
+  if (!user) throw new Error("No user.")
+  
+  
+  const res = await fetch(`${BASE_URL}/${playerId}/add-photo`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${tokenService.getToken()}`
+    },
+    body: photoFormData
+  })
+  return await res.json() as Player
 }
 
 async function getAllPlayers(): Promise<Player[]> {
@@ -24,6 +52,13 @@ async function getAllPlayers(): Promise<Player[]> {
     headers: { 'Authorization': `Bearer ${tokenService.getToken()}` }
   });
   return await res.json() as Player[];
+}
+
+async function search(searchTerm: string): Promise <Player[]> {
+  const res = await fetch(`${BASE_URL}/search/${searchTerm}`, {
+    headers: { 'Authorization': `Bearer ${tokenService.getToken()}` }
+  })
+  return await res.json() as Player[]
 }
 
 
@@ -82,4 +117,6 @@ export {
   fetchVotes,
   upvotePlayer,
   downvotePlayer,
+  addPlayerPhoto,
+  search
 };

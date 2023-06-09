@@ -7,7 +7,7 @@ import { Vote, VoteStatus } from '../types/models';
 
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/votes`;
 
-async function fetchVotes(playerId: number): Promise< VoteStatus > {
+async function fetchVotes(playerId: number): Promise<VoteStatus> {
   const res = await fetch(`${BASE_URL}/${playerId}/votes`, {
     headers: {
       'Authorization': `Bearer ${tokenService.getToken()}`,

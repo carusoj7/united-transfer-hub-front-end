@@ -23,8 +23,8 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-a,
-a:visited {
+
+a:hover {
   color: #a93d3d
 }
 

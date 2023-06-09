@@ -9,7 +9,7 @@ import Landing from './pages/Landing/Landing'
 import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
 import NewPlayer from './pages/NewPlayer/NewPlayer'
-import AllPlayers from './pages/TransferHub/TransferHub'
+import TransferHub from './pages/TransferHub/TransferHub'
 import EditPlayer from './pages/EditPlayer/EditPlayer'
 
 // components
@@ -27,16 +27,16 @@ import './App.css'
 
 // types
 import { User, Player, Profile } from './types/models'
-import { PlayerFormData } from './types/forms'
+import { PhotoFormData, PlayerFormData } from './types/forms'
 
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(authService.getUser())
-  const [players, setPlayers] =useState<Player[]>([])
-  const [profile, setProfile] =useState<Profile | null>(null)
+  const [players, setPlayers] = useState<Player[] | null>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
   const [player, setPlayer] = useState<Player | null>(null)
   const navigate = useNavigate()
-  
+
   const handleLogout = (): void => {
     authService.logout()
     setUser(null)
@@ -47,21 +47,21 @@ function App(): JSX.Element {
     setUser(authService.getUser())
   }
 
-  
-  useEffect((): void => {
-    const fetchPlayers = async(): Promise<void> => {
-      try {
-        const playerData: Player[] = await playerService.getAllPlayers()
-        setPlayers(playerData)
-      } catch (error) {
-        console.log(error)
-      }
+
+  const fetchPlayers = async (): Promise<void> => {
+    try {
+      const playerData: Player[] = await playerService.getAllPlayers()
+      setPlayers(playerData)
+    } catch (error) {
+      console.log(error)
     }
-    const fetchProfile = async(): Promise<void> => {
+  }
+  useEffect((): void => {
+    const fetchProfile = async (): Promise<void> => {
       try {
         const profileData: Profile = await profileService.getProfile()
         setProfile(profileData)
-      } catch (error){
+      } catch (error) {
         console.log(error)
       }
     }
@@ -72,22 +72,25 @@ function App(): JSX.Element {
       setProfile(null)
     }
   }, [user, setProfile])
-  
-  const handleAddPlayer = async (newPlayer: Player) => {
+
+  const handleAddPlayer = async (newPlayer: Player, photoData: PhotoFormData) => {
     try {
-    const createdPlayer = await playerService.createPlayer(newPlayer)
-    setPlayers([...players, createdPlayer])
-    console.log(createdPlayer, "new player data");
-    } catch (error){
-    console.log(error)
+      const createdPlayer = await playerService.createPlayer(newPlayer, photoData)
+      if (players)
+        setPlayers([...players, createdPlayer])
+      else
+        setPlayers([createdPlayer])
+      console.log(createdPlayer, "new player data");
+    } catch (error) {
+      console.log(error)
     }
-  } 
+  }
 
   const handleUpdatePlayer = async (playerFormData: PlayerFormData) => {
     try {
       const updatedPlayerData = await playerService.update(playerFormData)
       setPlayers((players) => {
-        return players.map((player) => {
+        return players == null ? [updatedPlayerData] : players.map((player) => {
           if (player.id === updatedPlayerData.id) {
             return updatedPlayerData
           } else {
@@ -102,13 +105,26 @@ function App(): JSX.Element {
   const handleDeletePlayer = async (playerId: number): Promise<void> => {
     try {
       await playerService.deletePlayer(playerId)
-      setPlayers(players.filter(p => p.id !== playerId))
+      if (players)
+        setPlayers(players.filter(p => p.id !== playerId))
       navigate('/transferhub')
     } catch (error) {
       console.log(error)
     }
   }
-  
+
+  const handleSearch = async (searchTerm: string): Promise<void> => {
+    try {
+      if (searchTerm) {
+        const playerData: Player[] = await playerService.search(searchTerm)
+        setPlayers(playerData)
+      } else {
+        fetchPlayers()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <>
       <NavBar user={user} handleLogout={handleLogout} />
@@ -142,7 +158,7 @@ function App(): JSX.Element {
           path="/new"
           element={
             <ProtectedRoute user={user}>
-            <NewPlayer handleAddPlayer={handleAddPlayer} />
+              <NewPlayer handleAddPlayer={handleAddPlayer} />
             </ProtectedRoute>
           }
         />
@@ -151,7 +167,7 @@ function App(): JSX.Element {
           element={
             <ProtectedRoute user={user}>
               <EditPlayer player={player} setPlayer={setPlayer}
-              handleUpdatePlayer={handleUpdatePlayer}/>
+                handleUpdatePlayer={handleUpdatePlayer} />
             </ProtectedRoute>
           }
         />
@@ -159,11 +175,12 @@ function App(): JSX.Element {
           path="/transferhub"
           element={
             <ProtectedRoute user={user}>
-              <AllPlayers 
-              players={players}
-              profileName={profile?.name || ''} 
-              user={user}
-              handleDeletePlayer={handleDeletePlayer}
+              <TransferHub
+                players={players}
+                handleSearch={handleSearch}
+                profileName={profile?.name || ''}
+                user={user}
+                handleDeletePlayer={handleDeletePlayer}
               />
             </ProtectedRoute>
           }

@@ -10,11 +10,12 @@ import { PhotoFormData, PlayerFormData } from '../../types/forms';
 import { getUserFromToken } from '../../services/tokenService';
 
 interface NewPlayerProps {
-  handleAddPlayer: (newPlayer: Player) => void;
+  handleAddPlayer: (newPlayer: Player, photoData: PhotoFormData) => void;
 }
 
 const NewPlayer = (props: NewPlayerProps): JSX.Element => {
   const imgInputRef = useRef<HTMLInputElement | null>(null);
+  const [message, setMessage] = useState('')
   const [formData, setFormData] = useState<PlayerFormData>({
     id: 0,
     name: '',
@@ -48,6 +49,34 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
     }));
   };
 
+  const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target.files) return
+    const file = evt.target.files[0]
+    let isFileInvalid = false
+    let errMsg = ""
+    const validFormats = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'webp']
+    const photoFormat = file.name.split('.').at(-1)
+
+    // cloudinary supports files up to 10.4MB each as of May 2023
+    if (file.size >= 10485760) {
+      errMsg = "Image must be smaller than 10.4MB"
+      isFileInvalid = true
+    }
+    if (photoFormat && !validFormats.includes(photoFormat)) {
+      errMsg = "Image must be in gif, jpeg/jpg, png, svg, or webp format"
+      isFileInvalid = true
+    }
+    
+    setMessage(errMsg)
+    
+    if (isFileInvalid && imgInputRef.current) {
+      imgInputRef.current.value = ""
+      return
+    }
+
+    setPhotoData({ photo: evt.target.files[0] })
+  }
+
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
     const user = getUserFromToken()
@@ -57,7 +86,7 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
         profileId: user.profile.id, 
         votesReceived: []
       }
-      props.handleAddPlayer(newPlayer)
+      props.handleAddPlayer(newPlayer, photoData)
       navigate('/transferhub')
     }
   };
@@ -112,6 +141,7 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
           type="file"
           name="photo"
           id="photo"
+          onChange={handleChangePhoto}
         />
         <button type="submit">Create Transfer Target</button>
       </form>
