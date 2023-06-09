@@ -1,7 +1,7 @@
 ![United Transfer Hub]( public/united-transfer-hub.png "united-screenshot")
 
 # United Transfer Hub
-United Transfer Hub! This application is designed exclusively for Manchester United fans who are passionate about their club's success in the summer transfer window. My platform allows fans to actively participate in the transfer discussions by adding players they believe Manchester United should sign. Whether it's a rising star, an established talent, or a hidden gem, this app gives you the power to showcase your football knowledge and make your case for the players who would take the team to the next level. Join the United Transfer Hub and be a part of the excitement as fans come together to shape the future of their beloved club!
+Welcome to United Transfer Hub! This application is designed exclusively for Manchester United fans who are passionate about their club's success in the summer transfer window. My platform allows fans to actively participate in the transfer discussions by adding players they believe Manchester United should sign. Whether it's a rising star, an established talent, or a hidden gem, this app gives you the power to showcase your football knowledge and make your case for the players who would take the team to the next level. Join the United Transfer Hub and be a part of the excitement as fans come together to shape the future of their beloved club!
 
 # Getting Started
 
