@@ -29,3 +29,9 @@
 .delete:hover {
   cursor:pointer;
 }
+
+h2 {
+  color: #DA291C;
+  display: flex;
+  justify-content: center;
+}

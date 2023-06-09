@@ -15,7 +15,6 @@ async function fetchVotes(playerId: number): Promise<VoteStatus> {
   });
 
   const data = await res.json();
-  console.log('Votes response:', data);
 
   return data as VoteStatus;
 }

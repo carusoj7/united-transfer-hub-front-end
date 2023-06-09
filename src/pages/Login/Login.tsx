@@ -37,9 +37,9 @@ const LoginPage = (props: AuthPageProps): JSX.Element => {
       await authService.login(formData)
       handleAuthEvt()
       navigate('/')
-    } catch (err) {
-      console.log(err)
-      handleErrMsg(err, setMessage)
+    } catch (error) {
+      console.log(error)
+      handleErrMsg(error, setMessage)
     }
   }
 

@@ -77,10 +77,9 @@ function App(): JSX.Element {
     try {
       const createdPlayer = await playerService.createPlayer(newPlayer, photoData)
       if (players)
-        setPlayers([...players, createdPlayer])
+        setPlayers([ createdPlayer, ...players])
       else
         setPlayers([createdPlayer])
-      console.log(createdPlayer, "new player data");
     } catch (error) {
       console.log(error)
     }

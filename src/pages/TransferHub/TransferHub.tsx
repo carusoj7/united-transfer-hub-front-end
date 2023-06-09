@@ -5,34 +5,32 @@
 //import * as playerService from '../../services/playerService'
 
 //components
-import PlayerCard from "../../components/PlayerCard/PlayerCard";
+import PlayerCard from "../../components/PlayerCard/PlayerCard"
 
 // types
 import { Player, User } from '../../types/models'
 
 //css
 import styles from './TransferHub.module.css'
-import { ChangeEvent } from "react";
+import { ChangeEvent } from "react"
 
 interface PlayerProps {
   players: Player[] | null
   profileName: string
   user: User | null
-  handleDeletePlayer: (playerId: number) => Promise<void>;
-  handleSearch: (searchTerm: string) => Promise<void>;
+  handleDeletePlayer: (playerId: number) => Promise<void>
+  handleSearch: (searchTerm: string) => Promise<void>
   
 }
 const TransferHub = (props: PlayerProps): JSX.Element => {
   const { players, profileName, user, handleDeletePlayer, handleSearch } = props
-  const profileId =  user?.profile.id ? user.profile.id : 0
-  console.log(profileId, "profile id");
-  
+  const profileId =  user?.profile.id ? user.profile.id : 0  
   if (!players) {
     return <main className={styles.container}><h1>Loading...</h1></main>
     
   }
   const handleSearchChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    handleSearch(evt.target.value); 
+    handleSearch(evt.target.value) 
   } 
   return (
     <main className={styles.container}>

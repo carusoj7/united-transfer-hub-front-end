@@ -1,17 +1,17 @@
 //npm modules
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 
 //css
 import styles from './EditPlayer.module.css'
 
 //services
 //services
-import { getUserFromToken } from "../../services/tokenService";
+import { getUserFromToken } from "../../services/tokenService"
 
 //types
-import { Player } from "../../types/models";
-import { PlayerFormData } from "../../types/forms";
+import { Player } from "../../types/models"
+import { PlayerFormData } from "../../types/forms"
 
 
 interface UpdatePlayerProps {
@@ -50,14 +50,14 @@ const EditPlayer = (props: UpdatePlayerProps) => {
         profileId: user.profile.id, 
       }
       try {
-        await props.handleUpdatePlayer(editedPlayer);
-        props.setPlayer(editedPlayer); // Update the player in the state immediately
-        navigate('/transferhub'); // Navigate to the all players page
+        await props.handleUpdatePlayer(editedPlayer)
+        props.setPlayer(editedPlayer) // Update the player in the state immediately
+        navigate('/transferhub') // Navigate to the all players page
       } catch (error) {
-        console.log('Player update failed', error);
+        console.log('Player update failed', error)
       }
     }
-  };
+  }
 
   return (
     <section className={styles.newPlayerContainer}>

@@ -17,10 +17,8 @@ async function createPlayer(playerFormData: PlayerFormData, photoData:PhotoFormD
     body: JSON.stringify(playerFormData)
   });
   let data = await res.json() as Player;
-  console.log(data);
   
   if (photoData.photo) {
-    console.log("ADD PLAYER PHOTO IS WORKING");
     data = await addPlayerPhoto(data.id, photoData)
     
   }
@@ -40,7 +38,7 @@ async function addPlayerPhoto(playerId: number, photoData: PhotoFormData): Promi
   const res = await fetch(`${BASE_URL}/${playerId}/add-photo`, {
     method: 'PUT',
     headers: {
-      'Authorization': `Bearer ${tokenService.getToken()}`
+      'Authorization': `Bearer ${tokenService.getToken()}`,
     },
     body: photoFormData
   })
@@ -89,7 +87,6 @@ async function fetchVotes(playerId: number): Promise<{ upvotes: number, downvote
   });
 
   const data = await res.json();
-  console.log('Votes response:', data);
 
   return data as { upvotes: number, downvotes: number };
   

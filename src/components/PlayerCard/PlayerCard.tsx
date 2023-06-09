@@ -1,40 +1,34 @@
-import Box from '@mui/material/Box';
-import { useState, useEffect } from 'react';
-import { Player } from '../../types/models';
-import { Vote } from '../../types/models';
-import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box'
+import { useState, useEffect } from 'react'
+import { Player } from '../../types/models'
+import { Vote } from '../../types/models'
+import { Link } from 'react-router-dom'
 import * as voteService from '../../services/voteService'
-import styles from './PlayerCard.module.css';
-import VoteManager from '../VoteManager/VoteManager';
+import styles from './PlayerCard.module.css'
+import VoteManager from '../VoteManager/VoteManager'
 
 interface PlayerCardProps {
-  player: Player;
-  profileName: string;
-  profileId: number;
-  handleDeletePlayer: (playerId: number) => Promise<void>;
+  player: Player
+  profileName: string
+  profileId: number
+  handleDeletePlayer: (playerId: number) => Promise<void>
 }
 
 const PlayerCard = (props: PlayerCardProps): JSX.Element => {
-  const { player, profileName, profileId, handleDeletePlayer } = props;
+  const { player, profileName, profileId, handleDeletePlayer } = props
   const [vote, setVote] = useState<Vote>({ profileId: 0, playerId: 0, vote: 0 })
   const [upvotes, setUpvotes] = useState(0)
   const [downvotes, setDownvotes] = useState(0)
 
-  console.log(player, 'This is player');
-
   useEffect(() => {
     async function fetchVotes() {
-      const playerVotes = await voteService.fetchVotes(player.id);
-      console.log(playerVotes);
-
-      setVote(playerVotes.existingVote);
-      setUpvotes(playerVotes.upvotes);
-      setDownvotes(playerVotes.downvotes);
-      console.log(playerVotes);
+      const playerVotes = await voteService.fetchVotes(player.id)
+      setVote(playerVotes.existingVote)
+      setUpvotes(playerVotes.upvotes)
+      setDownvotes(playerVotes.downvotes)
     }
-
-    fetchVotes();
-  }, [player.id, profileId]);
+    fetchVotes()
+  }, [player.id, profileId])
 
   const handleUpvote = async () => {
     try {
@@ -45,9 +39,9 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       setVote(updatedVote)
       setUpvotes(value => value + 1)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const handleDownvote = async () => {
     try {
@@ -58,15 +52,14 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       setVote(updatedVote)
       setDownvotes(value => value + 1)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
   const handleDelete = () => {
-    handleDeletePlayer(player.id);
-  };
+    handleDeletePlayer(player.id)
+  }
 
-  console.log(player.photo, player);
   return (
     <Box
       component="div"
@@ -83,9 +76,9 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
       <img src={player.photo ? player.photo : '/default-player.jpeg'} alt="" className={styles.playercardImg} style={{ width: "250px", height: "250px" }} />
 
       <div className={styles.playerCardContent}>
-        <h1>
+        <h2>
           {player.name} {profileName}
-        </h1>
+        </h2>
         <p>Age: {player.age}</p>
         <p>Position: {player.position}</p>
         <p>Current Team: {player.team}</p>
@@ -110,7 +103,7 @@ const PlayerCard = (props: PlayerCardProps): JSX.Element => {
         </>
       }
     </Box>
-  );
-};
+  )
+}
 
-export default PlayerCard;
+export default PlayerCard

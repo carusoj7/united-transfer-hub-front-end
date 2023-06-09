@@ -75,9 +75,9 @@ const Signup = (props: AuthPageProps): JSX.Element => {
       await authService.signup(formData, photoData)
       handleAuthEvt()
       navigate('/')
-    } catch (err) {
-      console.log(err)
-      handleErrMsg(err, setMessage)
+    } catch (error) {
+      console.log(error)
+      handleErrMsg(error, setMessage)
       setIsSubmitted(false)
     }
   }

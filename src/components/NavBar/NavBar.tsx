@@ -8,7 +8,7 @@ import { User } from '../../types/models'
 import styles from './NavBar.module.css'
 
 interface NavBarProps {
-  user: User | null;
+  user: User | null
   handleLogout: () => void
 }
 
@@ -17,7 +17,9 @@ const NavBar = (props: NavBarProps): JSX.Element => {
   
   return (
     <nav className={styles.nav}>
+      <NavLink to= "/">
       <img src="/Manchester_United_logo.png" alt="MU Icon" />
+      </NavLink>
       {user ?
         <ul>
           <li>Welcome, {user.name}</li>

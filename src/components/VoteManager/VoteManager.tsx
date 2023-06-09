@@ -1,31 +1,31 @@
-import { useState } from "react";
-import { Player, Vote } from "../../types/models";
+import { useState } from "react"
+import { Player, Vote } from "../../types/models"
 
 import styles from './VoteManager.module.css'
 
 interface VoteProps {
-  profileId: number;
-  handleUpvote: () => Promise<void>;
-  handleDownvote: () => Promise<void>;
-  upvotes: number;
-  downvotes: number;
+  profileId: number
+  handleUpvote: () => Promise<void>
+  handleDownvote: () => Promise<void>
+  upvotes: number
+  downvotes: number
   vote: Vote
 }
 
 const VoteManager = (props: VoteProps): JSX.Element => {
-  const {  handleUpvote, handleDownvote, upvotes, downvotes, vote } = props;
+  const {  handleUpvote, handleDownvote, upvotes, downvotes, vote } = props
 
   const handleUpvoteClick = async () => {
     if (vote?.vote !== 1) {
-      await handleUpvote();
+      await handleUpvote()
     }
-  };
+  }
 
   const handleDownvoteClick = async () => {
     if (vote?.vote !== -1) {
-      await handleDownvote();
+      await handleDownvote()
     }
-  };
+  }
 
   return (
     <div className={styles.voteManager}>
@@ -38,6 +38,6 @@ const VoteManager = (props: VoteProps): JSX.Element => {
       </button>
       <span>{downvotes}</span>
     </div>
-  );
-};
-export default VoteManager;
+  )
+}
+export default VoteManager

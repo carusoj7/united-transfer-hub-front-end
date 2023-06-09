@@ -36,9 +36,9 @@ const ChangePassword = (props: AuthPageProps): JSX.Element => {
       await authService.changePassword(formData)
       handleAuthEvt()
       navigate('/')
-    } catch (err) {
-      console.log(err)
-      handleErrMsg(err, setMessage)
+    } catch (error) {
+      console.log(error)
+      handleErrMsg(error, setMessage)
     }
   }
 

@@ -1,21 +1,21 @@
-import { useState, useRef, useEffect, ChangeEvent, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect, ChangeEvent, FormEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // CSS
-import styles from './NewPlayer.module.css';
+import styles from './NewPlayer.module.css'
 
 // Types
-import { Player, Vote } from '../../types/models';
-import { PhotoFormData, PlayerFormData } from '../../types/forms';
-import { getUserFromToken } from '../../services/tokenService';
+import { Player } from '../../types/models'
+import { PhotoFormData, PlayerFormData } from '../../types/forms'
+import { getUserFromToken } from '../../services/tokenService'
 
 interface NewPlayerProps {
-  handleAddPlayer: (newPlayer: Player, photoData: PhotoFormData) => void;
+  handleAddPlayer: (newPlayer: Player, photoData: PhotoFormData) => void
 }
 
 const NewPlayer = (props: NewPlayerProps): JSX.Element => {
-  const imgInputRef = useRef<HTMLInputElement | null>(null);
-  const [message, setMessage] = useState('')
+  const imgInputRef = useRef<HTMLInputElement | null>(null)
+  const [ message, setMessage] = useState('')
   const [formData, setFormData] = useState<PlayerFormData>({
     id: 0,
     name: '',
@@ -24,30 +24,30 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
     team: '',
     transferFee: 0,
     profileId: 0,
-  });
+  })
   const [photoData, setPhotoData] = useState<PhotoFormData>({
     photo: null,
-  });
+  })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const user = getUserFromToken();
+    const user = getUserFromToken()
     if (user) {
       setFormData((prevFormData) => ({
         ...prevFormData,
         profileId: user.profile.id,
-      }));
+      }))
     }
-  }, []);
+  }, [])
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = evt.target;
+    const { name, value } = evt.target
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files) return
@@ -71,7 +71,7 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
     
     if (isFileInvalid && imgInputRef.current) {
       imgInputRef.current.value = ""
-      return
+      return message
     }
 
     setPhotoData({ photo: evt.target.files[0] })
@@ -84,12 +84,11 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
       const newPlayer: Player = {
         ...formData,
         profileId: user.profile.id, 
-        votesReceived: []
       }
       props.handleAddPlayer(newPlayer, photoData)
       navigate('/transferhub')
     }
-  };
+  }
 
 
   return (
@@ -146,7 +145,7 @@ const NewPlayer = (props: NewPlayerProps): JSX.Element => {
         <button type="submit">Create Transfer Target</button>
       </form>
     </section>
-  );
-};
+  )
+}
 
-export default NewPlayer;
+export default NewPlayer
