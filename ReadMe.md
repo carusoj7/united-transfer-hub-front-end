@@ -27,7 +27,7 @@ United Transfer Hub! This application is designed exclusively for Manchester Uni
 * Node.js
 * Express
 * Sequelize
-* PostgresSQL
+* PostgreSQL
 * JWT
 * JavaScript
 * TypeScript
